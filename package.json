@@ -1,1 +1,15 @@
-{"name": "iris-cms","version": "1.0.0"}
+{
+  "name": "iris-cms",
+  "version": "1.0.0",
+  "description": "Integrates your Iris Blog",
+  "license": "MIT",
+  "repository": "rayancastro/iris-cms-npm",
+  "main": "index.js",
+  "keywords": [
+    "iris",
+    "npm",
+    "package",
+    "rayancastro",
+    "hortatech"
+  ]
+}
