@@ -214,6 +214,4 @@ class Iris {
   }
 }
 
-const iris = new Iris("AchBRWDwc38ku24GkMfBNHW7");
-
-// export default Iris;
+export default Iris;
