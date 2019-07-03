@@ -13,9 +13,33 @@ $ npm install iris-cms
 
 ## Usage
 
-```js
-const iris = require("iris-cms");
+# Blog page
 
-iris("Log this out");
-//=> "Please log this out"
+```html
+<div id="blog">
+</div>
+
+```
+
+# Post page
+
+```html
+<div id="post">
+</div>
+
+```
+
+# Javascript
+
+```js
+import Iris from "iris-cms";
+
+let iris = new Iris("YOUR_API_KEY_HERE");
+
+iris.buildBlog('blog');
+//=> Builds the blog main page with all the posts, at the container with id='blog'
+
+iris.buildPost('post');
+//=> Builds the specific main page with all the posts, at the container with id='post'
+
 ```
