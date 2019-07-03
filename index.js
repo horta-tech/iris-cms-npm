@@ -1,3 +1,5 @@
-module.exports = function iris(log) {
+const Iris = (log) => {
   console.log(log);
 };
+
+export default Iris;
