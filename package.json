@@ -1,7 +1,7 @@
 {
   "name": "iris-cms",
   "version": "1.3.0",
-  "description": "Integrates your Iris Blog",
+  "description": "Iris Blog integration",
   "license": "MIT",
   "repository": "rayancastro/iris-cms-npm",
   "main": "index.js",
@@ -11,5 +11,6 @@
     "package",
     "rayancastro",
     "hortatech"
-  ]
+  ],
+  "dependencies": {}
 }
