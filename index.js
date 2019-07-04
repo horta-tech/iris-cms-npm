@@ -9,7 +9,7 @@ class Iris {
       method: 'GET',
       headers: {'Content-Type':'application/x-www-form-urlencoded'}
     };
-    
+
     return await fetch(this.indexUrl, headers)
     .then(response => response.json())
     .then((myJson) => {
@@ -45,20 +45,20 @@ class Iris {
         let postLink = document.createElement('a');
         let postImage = document.createElement('img');
         let postText = document.createElement('h1');
-  
+
         postText.innerText = post.main_title;
-  
+
         postImage.src = post.banner_image.url;
-  
-        postLink.href = window.location.origin + '/post?' + post.slug;
-  
+
+        postLink.href = window.location.href + '?' + post.slug;
+
         postLink.appendChild(postImage);
         postLink.appendChild(postText);
         blogGrid.appendChild(postLink);
-  
+
       });
       blogPage.appendChild(blogGrid);
-    }); 
+    });
   }
 
   buildPost(elementId) {
@@ -212,6 +212,15 @@ class Iris {
       postPage.appendChild(postGrid);
     });
   }
+
+  buildContent(elementId){
+    if (window.location.search == '') {
+      this.buildBlog(elementId);
+    } else {
+      this.buildPost(elementId);
+    }
+  }
+
 }
 
-export default Iris;
+// export default Iris;
