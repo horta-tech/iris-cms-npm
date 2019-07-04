@@ -3,7 +3,7 @@
   "version": "2.1.0",
   "description": "Iris Blog integration",
   "license": "MIT",
-  "repository": "rayancastro/iris-cms-npm",
+  "repository": "horta-tech/iris-cms-npm",
   "main": "index.js",
   "keywords": [
     "iris",
