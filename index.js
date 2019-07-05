@@ -211,6 +211,29 @@ class Iris {
       postGrid.appendChild(postWrapper);
       postPage.appendChild(postGrid);
     });
+
+    // Build Post Links
+    let blogGrid = document.createElement('div');
+    blogGrid.classList.add('last_posts');
+    this.getPosts().then((posts) => {
+      posts.forEach((post) => {
+        let postLink = document.createElement('a');
+        let postImage = document.createElement('img');
+        let postText = document.createElement('h1');
+
+        postText.innerText = post.main_title;
+
+        postImage.src = post.banner_image.url;
+
+        postLink.href = window.location.href + '?' + post.slug;
+
+        postLink.appendChild(postImage);
+        postLink.appendChild(postText);
+        blogGrid.appendChild(postLink);
+
+      });
+      postGrid.appendChild(blogGrid);
+    });
   }
 
   buildContent(elementId){

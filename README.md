@@ -21,14 +21,6 @@ $ npm install iris-cms
 
 ```
 
-# Post page
-
-```html
-<div id="post">
-</div>
-
-```
-
 # Javascript
 
 ```js
@@ -36,10 +28,7 @@ import Iris from "iris-cms";
 
 let iris = new Iris("YOUR_API_KEY_HERE");
 
-iris.buildBlog('blog');
-//=> Builds the blog main page with all the posts, at the container with id='blog'
-
-iris.buildPost('post');
-//=> Builds the specific main page with all the posts, at the container with id='post'
+iris.buildContent('blog');
+//=> Builds the entire blog inside the div
 
 ```
