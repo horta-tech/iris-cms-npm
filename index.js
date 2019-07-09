@@ -151,7 +151,10 @@ class Iris {
         topicContent.classList.add('topic_content');
         topicContent.innerText = topic.content;
 
-        topics.appendChild(topicImage);
+        if (topic.image.url != null) {
+          topics.appendChild(topicImage);
+        };
+
         topics.appendChild(topicTitle);
         topics.appendChild(topicContent);
       });
@@ -161,7 +164,6 @@ class Iris {
       // Build CTA
 
       let newCta = document.createElement('section');
-      newCta.classList.add('call-to-action');
 
       let ctaLink = document.createElement('a');
       ctaLink.classList.add('cta-link');
@@ -178,7 +180,13 @@ class Iris {
       ctaContent.classList.add('cta_content');
       ctaContent.innerText = post.call_to_action_content;
 
-      ctaWrapper.appendChild(ctaImage);
+      if (post.call_to_action_image.url != null) {
+        newCta.classList.add('call-to-action');
+        ctaWrapper.appendChild(ctaImage);
+      } else{
+        newCta.classList.add('call-to-action-imageless');
+      }
+
       ctaWrapper.appendChild(ctaContent);
       ctaLink.appendChild(ctaWrapper);
       newCta.appendChild(ctaLink);
@@ -201,7 +209,9 @@ class Iris {
       closureText.classList.add('closure_text');
       closureText.innerText = post.closure_text;
 
-      closure.appendChild(closureImage);
+      if (post.closure_image.url != null) {
+        closure.appendChild(closureImage);
+      }
       closure.appendChild(closureTitle);
       closure.appendChild(closureText);
       postWrapper.appendChild(closure);

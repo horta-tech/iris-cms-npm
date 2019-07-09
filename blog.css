@@ -4,10 +4,11 @@
   text-decoration: none;
 }
 .blog_grid {
+  padding: 8px;
   display: grid;
   grid-gap: 8px;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 350px 350px auto;
+  grid-auto-rows: 350px;
 }
 .blog_grid a {
   width: 100%;
@@ -124,6 +125,11 @@
 }
 .topics .topic_content {
   font-size: 20px;
+}
+.call-to-action-imageless {
+  width: 80%;
+  margin-bottom: 50px;
+  margin-top: 50px;
 }
 .call-to-action {
   width: 80%;
