@@ -36,7 +36,22 @@ class Iris {
     return `https://iris.horta.dev/api/v1/posts/${slug}?api_key=` + this.apiKey;
   }
 
+  style(styleName) {
+    let head = document.getElementsByTagName('HEAD')[0];
+    let reset = document.createElement('link');
+    reset.rel = 'stylesheet';
+    reset.type = 'text/css';
+    reset.href = 'https://iris.horta.dev/styles/reset.css';
+    head.appendChild(reset);
+    let style = document.createElement('link');
+    style.rel = 'stylesheet';
+    style.type = 'text/css';
+    style.href = 'https://iris.horta.dev/styles/' + styleName + '.css';
+    head.appendChild(style);
+  };
+
   buildBlog(elementId) {
+    this.style('reset');
     let blogPage = document.getElementById(elementId);
     let blogGrid = document.createElement('div');
     blogGrid.classList.add('blog_grid');
@@ -108,8 +123,6 @@ class Iris {
 
       let internalLinksList = document.createElement('ul');
       internalLinksList.classList.add('internal_links_list');
-
-      console.log(post.internal_links);
 
       post.internal_links.forEach((link) => {
         let item = document.createElement('li');
@@ -258,4 +271,4 @@ class Iris {
 
 }
 
-// export default Iris;
+export default Iris;
