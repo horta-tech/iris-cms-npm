@@ -204,6 +204,10 @@
   display: grid;
   grid-template-columns: 0.7fr 0.3fr;
 }
+.post-wrapper {
+  grid-column: 1;
+  grid-row: 1;
+}
 .featured-posts-wrapper .featured-post-card {
   margin: 50px auto;
   width: 60%;
@@ -221,4 +225,16 @@
 }
 .last_posts img{
   width: 100%;
+  transition: 1s;
+}
+.last_posts img:hover{
+  filter: brightness(50%);
+  transition: 1s;
+}
+.last_posts h1{
+  position: relative;
+  bottom: 72px;
+  font-size: 24px;
+  color: white;
+  margin-left: 24px;
 }
