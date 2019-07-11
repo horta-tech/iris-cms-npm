@@ -4,13 +4,18 @@ class Iris {
     this.indexUrl = 'https://iris.horta.dev/api/v1/posts?api_key=' + this.apiKey;
   }
 
-  async getPosts() {
+  async getPosts(limit) {
     let headers = {
       method: 'GET',
       headers: {'Content-Type':'application/x-www-form-urlencoded'}
     };
-
-    return await fetch(this.indexUrl, headers)
+    let limitedUrl;
+    if (limit) {
+      limitedUrl = this.indexUrl + `&limit=${limit}`;
+    } else {
+      limitedUrl = this.indexUrl;
+    }
+    return await fetch(limitedUrl, headers)
     .then(response => response.json())
     .then((myJson) => {
       return myJson;
@@ -240,7 +245,7 @@ class Iris {
     // Build Post Links
     let blogGrid = document.createElement('div');
     blogGrid.classList.add('last_posts');
-    this.getPosts().then((posts) => {
+    this.getPosts(6).then((posts) => {
       posts.forEach((post) => {
         let postLink = document.createElement('a');
         let postImage = document.createElement('img');
