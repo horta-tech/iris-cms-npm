@@ -58,6 +58,7 @@ class Iris {
   buildBlog(elementId) {
     this.style('reset');
     let blogPage = document.getElementById(elementId);
+    blogPage.innerHTML = '';
     let blogGrid = document.createElement('div');
     blogGrid.classList.add('blog_grid');
     this.getPosts().then((posts) => {
@@ -83,6 +84,7 @@ class Iris {
 
   buildPost(elementId) {
     let postPage = document.getElementById(elementId);
+    postPage.innerHTML = '';
     let postGrid = document.createElement('div');
     postGrid.classList.add('post-grid');
 
