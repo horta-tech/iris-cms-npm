@@ -70,7 +70,7 @@ class Iris {
         let postImage = document.createElement('img');
         let postText = document.createElement('h1');
 
-        postText.innerText = post.main_title;
+        postText.innerHTML = post.main_title;
 
         postImage.src = post.banner_image.url;
 
@@ -111,9 +111,10 @@ class Iris {
 
       let mainTitle = document.createElement('h1');
       mainTitle.classList.add('main_title');
-      mainTitle.innerText = post.main_title;
+      mainTitle.innerHTML = post.main_title;
 
       let bannerText = document.createElement('p');
+
       bannerText.classList.add('banner_text');
       bannerText.innerText = post.banner_text;
 
@@ -129,11 +130,11 @@ class Iris {
 
       let secondaryTitle = document.createElement('h2');
       secondaryTitle.classList.add('secondary_title');
-      secondaryTitle.innerText = post.secondary_title;
+      secondaryTitle.innerHTML = post.secondary_title;
 
       let firstIntroduction = document.createElement('p');
       firstIntroduction.classList.add('first_introduction');
-      firstIntroduction.innerText = post.first_introduction;
+      firstIntroduction.innerHTML = post.first_introduction;
 
       let internalLinksList = document.createElement('ul');
       internalLinksList.classList.add('internal_links_list');
@@ -145,7 +146,7 @@ class Iris {
         let newLink = document.createElement('a');
         newLink.classList.add('internal_link');
         newLink.href = link.url;
-        newLink.innerText = link.text;
+        newLink.innerHTML = link.text;
 
         item.appendChild(newLink);
         internalLinksList.appendChild(item);
@@ -153,7 +154,7 @@ class Iris {
 
       let secondIntroduction = document.createElement('p');
       secondIntroduction.classList.add('second_introduction');
-      secondIntroduction.innerText = post.second_introduction;
+      secondIntroduction.innerHTML = post.second_introduction;
 
       introduction.appendChild(secondaryTitle);
       introduction.appendChild(firstIntroduction);
@@ -177,11 +178,11 @@ class Iris {
 
         let topicTitle = document.createElement('h3');
         topicTitle.classList.add('topic_title');
-        topicTitle.innerText = topic.title
+        topicTitle.innerHTML = topic.title
 
         let topicContent = document.createElement('p');
         topicContent.classList.add('topic_content');
-        topicContent.innerText = topic.content;
+        topicContent.innerHTML = topic.content;
 
 
         topics.appendChild(topicTitle);
@@ -204,7 +205,7 @@ class Iris {
 
       let ctaContent = document.createElement('p');
       ctaContent.classList.add('cta_content');
-      ctaContent.innerText = post.call_to_action_content;
+      ctaContent.innerHTML = post.call_to_action_content;
 
       if (post.call_to_action_image.url != null) {
         let ctaImage = document.createElement('img');
@@ -229,11 +230,11 @@ class Iris {
 
       let closureTitle = document.createElement('h3');
       closureTitle.classList.add('closure_title');
-      closureTitle.innerText = post.closure_title;
+      closureTitle.innerHTML = post.closure_title;
 
       let closureText = document.createElement('p');
       closureText.classList.add('closure_text');
-      closureText.innerText = post.closure_text;
+      closureText.innerHTML = post.closure_text;
 
       if (post.closure_image.url != null) {
         let closureImage = document.createElement('img');
@@ -260,7 +261,7 @@ class Iris {
         let postImage = document.createElement('img');
         let postText = document.createElement('h1');
 
-        postText.innerText = post.main_title;
+        postText.innerHTML = post.main_title;
 
         postImage.src = post.banner_image.url;
 
