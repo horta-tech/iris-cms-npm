@@ -56,12 +56,15 @@ class Iris {
   };
 
   buildBlog(elementId) {
-    this.style('reset');
     let blogPage = document.getElementById(elementId);
     blogPage.innerHTML = '';
     let blogGrid = document.createElement('div');
     blogGrid.classList.add('blog_grid');
-    this.getPosts().then((posts) => {
+    this.getPosts().then((response) => {
+      let posts = response.data;
+      if (response.template != '') {
+        this.style(response.template);
+      };
       posts.forEach((post) => {
         let postLink = document.createElement('a');
         let postImage = document.createElement('img');
@@ -91,9 +94,13 @@ class Iris {
     let postWrapper = document.createElement('div');
     postWrapper.classList.add('post-wrapper');
 
-    this.getPost(window.location.search.substr(1)).then((post) => {
+    this.getPost(window.location.search.substr(1)).then((response) => {
 
       // Build Banner
+      if (response.template != '') {
+        this.style(response.template);
+      };
+      let post = response.data
 
       let postBanner = document.createElement('div');
       postBanner.classList.add('post_banner');
@@ -248,7 +255,7 @@ class Iris {
     let blogGrid = document.createElement('div');
     blogGrid.classList.add('last_posts');
     this.getPosts(6).then((posts) => {
-      posts.forEach((post) => {
+      posts.data.forEach((post) => {
         let postLink = document.createElement('a');
         let postImage = document.createElement('img');
         let postText = document.createElement('h1');

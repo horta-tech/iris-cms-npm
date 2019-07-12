@@ -28,9 +28,6 @@ import Iris from "iris-cms";
 
 let iris = new Iris("YOUR_API_KEY_HERE");
 
-iris.style("IRIS_STYLE_NAME_HERE");
-//OPTIONAL
-
 iris.buildContent('blog');
 //=> Builds the entire blog inside the div
 
