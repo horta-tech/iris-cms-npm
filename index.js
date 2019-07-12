@@ -4,13 +4,18 @@ class Iris {
     this.indexUrl = 'https://iris.horta.dev/api/v1/posts?api_key=' + this.apiKey;
   }
 
-  async getPosts() {
+  async getPosts(limit) {
     let headers = {
       method: 'GET',
       headers: {'Content-Type':'application/x-www-form-urlencoded'}
     };
-
-    return await fetch(this.indexUrl, headers)
+    let limitedUrl;
+    if (limit) {
+      limitedUrl = this.indexUrl + `&limit=${limit}`;
+    } else {
+      limitedUrl = this.indexUrl;
+    }
+    return await fetch(limitedUrl, headers)
     .then(response => response.json())
     .then((myJson) => {
       return myJson;
@@ -51,11 +56,15 @@ class Iris {
   };
 
   buildBlog(elementId) {
-    this.style('reset');
     let blogPage = document.getElementById(elementId);
+    blogPage.innerHTML = '';
     let blogGrid = document.createElement('div');
     blogGrid.classList.add('blog_grid');
-    this.getPosts().then((posts) => {
+    this.getPosts().then((response) => {
+      let posts = response.data;
+      if (response.template != '') {
+        this.style(response.template);
+      };
       posts.forEach((post) => {
         let postLink = document.createElement('a');
         let postImage = document.createElement('img');
@@ -78,15 +87,20 @@ class Iris {
 
   buildPost(elementId) {
     let postPage = document.getElementById(elementId);
+    postPage.innerHTML = '';
     let postGrid = document.createElement('div');
     postGrid.classList.add('post-grid');
 
     let postWrapper = document.createElement('div');
     postWrapper.classList.add('post-wrapper');
 
-    this.getPost(window.location.search.substr(1)).then((post) => {
+    this.getPost(window.location.search.substr(1)).then((response) => {
 
       // Build Banner
+      if (response.template != '') {
+        this.style(response.template);
+      };
+      let post = response.data
 
       let postBanner = document.createElement('div');
       postBanner.classList.add('post_banner');
@@ -100,7 +114,8 @@ class Iris {
       mainTitle.innerHTML = post.main_title;
 
       let bannerText = document.createElement('p');
-      bannerText.classList.add('banenr_text');
+
+      bannerText.classList.add('banner_text');
       bannerText.innerHTML = post.banner_text;
 
       bannerContent.appendChild(mainTitle);
@@ -240,8 +255,8 @@ class Iris {
     // Build Post Links
     let blogGrid = document.createElement('div');
     blogGrid.classList.add('last_posts');
-    this.getPosts().then((posts) => {
-      posts.forEach((post) => {
+    this.getPosts(6).then((posts) => {
+      posts.data.forEach((post) => {
         let postLink = document.createElement('a');
         let postImage = document.createElement('img');
         let postText = document.createElement('h1');

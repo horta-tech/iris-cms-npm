@@ -1,6 +1,8 @@
 {
   "name": "iris-cms",
-  "version": "2.3.0",
+
+  "version": "3.3.0",
+
   "description": "Iris Blog integration",
   "license": "MIT",
   "repository": "horta-tech/iris-cms-npm",
