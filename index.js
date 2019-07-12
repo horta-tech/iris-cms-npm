@@ -116,7 +116,7 @@ class Iris {
       let bannerText = document.createElement('p');
 
       bannerText.classList.add('banner_text');
-      bannerText.innerText = post.banner_text;
+      bannerText.innerHTML = post.banner_text;
 
       bannerContent.appendChild(mainTitle);
       bannerContent.appendChild(bannerText);
