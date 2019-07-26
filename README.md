@@ -26,7 +26,7 @@ $ npm install iris-cms
 ```js
 import Iris from "iris-cms";
 
-var options = {
+const options = {
   apiKey: 'YOUR_API_KEY_HERE',
   elementId: 'blog'
 }

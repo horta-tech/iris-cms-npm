@@ -355,13 +355,15 @@ class Iris {
         let query = new URLSearchParams(window.location.search);
         let slug = query.get('post')
 
-        if (slug) {
-          this.buildPost(elementId, slug);
-        } else {
-          this.buildBlog(elementId);
+        if (document.getElementById(elementId)) {
+          if (slug) {
+            this.buildPost(elementId, slug);
+          } else {
+            this.buildBlog(elementId);
+          }
         }
       })
   }
 }
 
-// export default Iris;
+export default Iris;
