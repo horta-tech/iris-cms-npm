@@ -41,6 +41,14 @@ class Iris {
     return `https://iris.horta.dev/api/v1/posts/${slug}?api_key=` + this.apiKey;
   }
 
+  setMeta() {
+    let meta=document.createElement('meta');
+    meta.name='viewport';
+    meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
+
+    document.getElementsByTagName('head')[0].appendChild(meta);
+  }
+
   style(styleName) {
     let head = document.getElementsByTagName('HEAD')[0];
     let reset = document.createElement('link');
@@ -276,14 +284,13 @@ class Iris {
     });
   }
 
-  buildContent(elementId){
+  async buildContent(elementId){
     if (window.location.search == '') {
       this.buildBlog(elementId);
     } else {
       this.buildPost(elementId);
     }
   }
-
 }
 
 export default Iris;
