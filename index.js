@@ -110,13 +110,14 @@ class Iris {
     this.getPost(slug).then((response) => {
       let post = response.data
 
-      // Set template
+      // Set style according to template
 
       if (this.accountInfo.template && this.accountInfo.template != '') {
         this.style(this.accountInfo.template);
       };
 
-      // Set META
+      // Set META tags
+
       let head = document.getElementsByTagName('head')[0]
 
       let title = document.getElementsByTagName('title')[0]
@@ -348,10 +349,12 @@ class Iris {
 
     fetch(this.infoUrl(), headers)
       .then(response => response.json())
-      .then((myJson) => {
-        this.accountInfo = myJson;
+      .then((data) => {
+        this.accountInfo = data;
+
         let query = new URLSearchParams(window.location.search);
         let slug = query.get('post')
+
         if (slug) {
           this.buildPost(elementId, slug);
         } else {
