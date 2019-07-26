@@ -26,9 +26,13 @@ $ npm install iris-cms
 ```js
 import Iris from "iris-cms";
 
-let iris = new Iris("YOUR_API_KEY_HERE");
+var options = {
+  apiKey: 'YOUR_API_KEY_HERE',
+  elementId: 'blog'
+}
 
-iris.buildContent('blog');
+let iris = new Iris(options);
+
 //=> Builds the entire blog inside the div
 
 ```

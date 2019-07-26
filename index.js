@@ -1,7 +1,24 @@
 class Iris {
-  constructor(apiKey) {
-    this.apiKey = apiKey
-    this.indexUrl = 'https://iris.horta.dev/api/v1/posts?api_key=' + this.apiKey;
+  constructor(options = {}) {
+    this.apiKey = options.apiKey
+    if (options.testUrl) {
+      this.apiUrl = `${options.testUrl}/api/v1/`
+    } else {
+      this.apiUrl = 'https://iris.horta.dev/api/v1/'
+    }
+    this.buildContent(options.elementId);
+  }
+
+  indexUrl() {
+    return this.apiUrl + 'posts?api_key=' + this.apiKey;
+  }
+
+  postUrl(slug) {
+    return this.apiUrl + `posts/${slug}?api_key=` + this.apiKey;
+  }
+
+  infoUrl() {
+    return this.apiUrl + 'account-info?api_key=' + this.apiKey;
   }
 
   async getPosts(limit) {
@@ -11,9 +28,9 @@ class Iris {
     };
     let limitedUrl;
     if (limit) {
-      limitedUrl = this.indexUrl + `&limit=${limit}`;
+      limitedUrl = this.indexUrl() + `&limit=${limit}`;
     } else {
-      limitedUrl = this.indexUrl;
+      limitedUrl = this.indexUrl();
     }
     return await fetch(limitedUrl, headers)
     .then(response => response.json())
@@ -35,18 +52,6 @@ class Iris {
       .then((myJson) => {
         return myJson;
       })
-  }
-
-  postUrl(slug) {
-    return `https://iris.horta.dev/api/v1/posts/${slug}?api_key=` + this.apiKey;
-  }
-
-  setMeta() {
-    let meta=document.createElement('meta');
-    meta.name='viewport';
-    meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
-
-    document.getElementsByTagName('head')[0].appendChild(meta);
   }
 
   style(styleName) {
@@ -82,7 +87,7 @@ class Iris {
 
         postImage.src = post.banner_image.url;
 
-        postLink.href = window.location.href + '?' + post.slug;
+        postLink.href = window.location.href + '?post=' + post.slug;
 
         postLink.appendChild(postImage);
         postLink.appendChild(postText);
@@ -93,7 +98,7 @@ class Iris {
     });
   }
 
-  buildPost(elementId) {
+  buildPost(elementId, slug) {
     let postPage = document.getElementById(elementId);
     postPage.innerHTML = '';
     let postGrid = document.createElement('div');
@@ -102,13 +107,63 @@ class Iris {
     let postWrapper = document.createElement('div');
     postWrapper.classList.add('post-wrapper');
 
-    this.getPost(window.location.search.substr(1)).then((response) => {
+    this.getPost(slug).then((response) => {
+      let post = response.data
+
+      // Set template
+
+      if (this.accountInfo.template && this.accountInfo.template != '') {
+        this.style(this.accountInfo.template);
+      };
+
+      // Set META
+      let head = document.getElementsByTagName('head')[0]
+
+      let title = document.getElementsByTagName('title')[0]
+      let titleText = post.main_title
+      if (post.seo_title) {
+      titleText = post.seo_title
+      }
+      title.innerHTML += ` | ${titleText}`
+      if (title.innerHTML.length > 70) { title.innerHTML = title.innerHTML.substring(0,67) + "..."}
+
+      let metaDescription = document.createElement('meta')
+      metaDescription.name = "description";
+      metaDescription.setAttribute('content', post.meta_description);
+
+      let ogTitle = document.createElement('meta')
+      ogTitle.setAttribute('property', 'og:title');
+      ogTitle.setAttribute('content', post.seo_title);
+
+      let ogDescription = document.createElement('meta')
+      ogDescription.setAttribute('property', 'og:description');
+      ogDescription.setAttribute('content', post.meta_description);;
+
+      let ogType = document.createElement('meta')
+      ogType.setAttribute('property', 'og:type');
+      ogType.setAttribute('content', 'website');
+
+      let ogImage = document.createElement('meta')
+      ogImage.setAttribute('property', 'og:image');
+      ogImage.setAttribute('content', post.banner_image.url);
+
+      let metaViewport = document.createElement('meta')
+      metaViewport.name = "viewport";
+      metaViewport.setAttribute('content', 'width=device-width, initial-scale=1');
+
+      let metaHttp = document.createElement('meta')
+      metaHttp.name = "http-equiv";
+      metaHttp.setAttribute('content', "IE=edge,chrome=1")
+
+      head.appendChild(metaDescription);
+      head.appendChild(ogTitle);
+      head.appendChild(ogDescription);
+      head.appendChild(ogType);
+      head.appendChild(ogImage);
+      head.appendChild(metaViewport);
+      head.appendChild(metaHttp);
 
       // Build Banner
-      if (response.template != '') {
-        this.style(response.template);
-      };
-      let post = response.data
 
       let postBanner = document.createElement('div');
       postBanner.classList.add('post_banner');
@@ -272,8 +327,7 @@ class Iris {
         postText.innerHTML = post.main_title;
 
         postImage.src = post.banner_image.url;
-
-        postLink.href = window.location.href.split('?')[0] + '?' + post.slug;
+        postLink.href = window.location.pathname + '?post=' + post.slug;
 
         postLink.appendChild(postImage);
         postLink.appendChild(postText);
@@ -285,12 +339,26 @@ class Iris {
   }
 
   async buildContent(elementId){
-    if (window.location.search == '') {
-      this.buildBlog(elementId);
-    } else {
-      this.buildPost(elementId);
-    }
+    let headers = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    };
+
+    fetch(this.infoUrl(), headers)
+      .then(response => response.json())
+      .then((myJson) => {
+        this.accountInfo = myJson;
+        let query = new URLSearchParams(window.location.search);
+        let slug = query.get('post')
+        if (slug) {
+          this.buildPost(elementId, slug);
+        } else {
+          this.buildBlog(elementId);
+        }
+      })
   }
 }
 
-export default Iris;
+// export default Iris;
