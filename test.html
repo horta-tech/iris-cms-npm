@@ -1,27 +1,23 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>My Sample Project</title>
+        <title>Iris Sample Blog</title>
     </head>
     <body>
       <div id="blog"></div>
       <!-- <script src="index.js"></script> -->
+      <!-- <script src="test.js"></script> -->
       <script type="module">
-        import { Iris } from "./index.js";
-        console.log('testing script module');
+        import Iris from "https://cdn.jsdelivr.net/npm/iris-cms/index.js";
 
-        options = {
+        let options = {
           apiKey: 'sjnvs8aq1TBN6deCTET6LdWd',
           testUrl: 'http://localhost:3000',
           elementId: 'blog'
         }
-
-        //  production: AchBRWDwc38ku24GkMfBNHW7
         let iris = new Iris(options)
-        console.log(iris);
-
-        // https://cdn.jsdelivr.net/npm/iris-cms@4.1.0/index.js
       </script>
-      <!-- <script src="test.js"></script> -->
     </body>
 </html>
+<!-- //  Local Host Key: sjnvs8aq1TBN6deCTET6LdWd -->
+<!-- //  Test iris production key: AchBRWDwc38ku24GkMfBNHW7 -->

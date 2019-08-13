@@ -6,6 +6,5 @@ options = {
   elementId: 'blog'
 }
 
-//  production: AchBRWDwc38ku24GkMfBNHW7
 let iris = new Iris(options)
 console.log(iris);
