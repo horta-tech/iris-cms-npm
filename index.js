@@ -82,8 +82,13 @@ class Iris {
         let postLink = document.createElement('a');
         let postImage = document.createElement('img');
         let postText = document.createElement('h1');
+        let postDescription = document.createElement('p');
+        let postDate = new Date(post.updated_at).toLocaleDateString();
+        let postTime = new Date(post.updated_at).toLocaleTimeString();
 
         postText.innerHTML = post.main_title;
+
+        postDescription.innerText = "Atualizado " + postDate + " " + postTime;
 
         postImage.src = post.banner_image.url;
 
@@ -91,6 +96,7 @@ class Iris {
 
         postLink.appendChild(postImage);
         postLink.appendChild(postText);
+        postLink.appendChild(postDescription);
         blogGrid.appendChild(postLink);
 
       });
@@ -101,6 +107,7 @@ class Iris {
   buildPost(elementId, slug) {
     let postPage = document.getElementById(elementId);
     postPage.innerHTML = '';
+
     let postGrid = document.createElement('div');
     postGrid.classList.add('post-grid');
 
@@ -163,6 +170,15 @@ class Iris {
       head.appendChild(ogImage);
       head.appendChild(metaViewport);
       head.appendChild(metaHttp);
+
+      // Build Home Button
+
+      let homeButton = document.createElement('a');
+
+      homeButton.innerHTML = "<img src='./assets/home-icon.svg'/>";
+      homeButton.href = window.location.pathname;
+
+      postPage.appendChild(homeButton);
 
       // Build Banner
 
@@ -347,6 +363,22 @@ class Iris {
       }
     };
 
+    let blog = document.getElementById('blog');
+    blog.addEventListener('load', () => {
+      console.log('hello');
+    });
+
+    // Loading Screen
+    let loadScreen = document.createElement('div');
+    loadScreen.id = 'load-screen'
+    loadScreen.style ="position: fixed; top: 0; bottom: 0; right: 0; left: 0; background-color: rgba(255, 255, 255, 0.6); z-index: 1000; display: flex; justify-content: center; justify-items: center; flex-direction: column; text-align: center;";
+    loadScreen.innerHTML = `<svg width="100px" height="100px" style="align-self: center;">
+            <circle cx="50" cy="50" ng-attr-r="{{config.radius}}" ng-attr-stroke-width="{{config.width}}" ng-attr-stroke="{{config.stroke}}" ng-attr-stroke-dasharray="{{config.dasharray}}" fill="none" stroke-linecap="round" r="27" stroke-width="7" stroke="gray" stroke-dasharray="42.411500823462205 42.411500823462205" transform="rotate(60 50 50)">
+              <animateTransform attributeName="transform" type="rotate" calcMode="linear" values="0 50 50;360 50 50" keyTimes="0;1" dur="1s" begin="0s" repeatCount="indefinite"></animateTransform>
+            </circle>
+          </svg><p></p>`
+    document.body.appendChild(loadScreen);
+
     fetch(this.infoUrl(), headers)
       .then(response => response.json())
       .then((data) => {
@@ -358,12 +390,14 @@ class Iris {
         if (document.getElementById(elementId)) {
           if (slug) {
             this.buildPost(elementId, slug);
+            loadScreen.remove();
           } else {
             this.buildBlog(elementId);
+            loadScreen.remove();
           }
         }
       })
   }
 }
 
-export default Iris;
+// export default Iris;
