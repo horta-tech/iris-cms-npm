@@ -1,6 +1,7 @@
 class Iris {
   constructor(options = {}) {
     this.addLoadScreen();
+    setTimeout(this.removeLoadScreen, 4000);
     this.apiKey = options.apiKey
     if (options.testUrl) {
       this.apiUrl = `${options.testUrl}/api/v1/`
