@@ -1,5 +1,6 @@
 class Iris {
   constructor(options = {}) {
+    this.addLoadScreen();
     this.apiKey = options.apiKey
     if (options.testUrl) {
       this.apiUrl = `${options.testUrl}/api/v1/`
@@ -56,11 +57,6 @@ class Iris {
 
   style(styleName) {
     let head = document.getElementsByTagName('HEAD')[0];
-    let reset = document.createElement('link');
-    reset.rel = 'stylesheet';
-    reset.type = 'text/css';
-    reset.href = 'https://iris.horta.dev/styles/reset.css';
-    head.appendChild(reset);
     let style = document.createElement('link');
     style.rel = 'stylesheet';
     style.type = 'text/css';
@@ -75,22 +71,34 @@ class Iris {
     blogGrid.classList.add('blog_grid');
     this.getPosts().then((response) => {
       let posts = response.data;
-      if (response.template != '') {
-        this.style(response.template);
-      };
+
       posts.forEach((post) => {
         let postLink = document.createElement('a');
         let postImage = document.createElement('img');
         let postText = document.createElement('h1');
+        let postDescription = document.createElement('p');
+        let postAuthor = document.createElement('p');
+        let postDate = new Date(post.updated_at).toLocaleDateString();
+        let postTime = new Date(post.updated_at).toLocaleTimeString();
+
 
         postText.innerHTML = post.main_title;
 
+        postDescription.innerText = "Atualizado em " + postDate + " " + postTime;
+        postAuthor.innerText = post.author.email;
+
+        console.log(post);
+
+        postImage.addEventListener('load', this.removeLoadScreen);
         postImage.src = post.banner_image.url;
+        postImage.class = 'iris-img';
 
         postLink.href = window.location.href + '?post=' + post.slug;
 
         postLink.appendChild(postImage);
         postLink.appendChild(postText);
+        postLink.appendChild(postDescription);
+        postLink.appendChild(postAuthor);
         blogGrid.appendChild(postLink);
 
       });
@@ -101,6 +109,7 @@ class Iris {
   buildPost(elementId, slug) {
     let postPage = document.getElementById(elementId);
     postPage.innerHTML = '';
+
     let postGrid = document.createElement('div');
     postGrid.classList.add('post-grid');
 
@@ -109,12 +118,6 @@ class Iris {
 
     this.getPost(slug).then((response) => {
       let post = response.data
-
-      // Set style according to template
-
-      if (this.accountInfo.template && this.accountInfo.template != '') {
-        this.style(this.accountInfo.template);
-      };
 
       // Set META tags
 
@@ -164,11 +167,25 @@ class Iris {
       head.appendChild(metaViewport);
       head.appendChild(metaHttp);
 
+      // Build Home Button
+
+      let homeButton = document.createElement('a');
+
+      homeButton.innerHTML = `<svg class="svg-color" version="1.0" xmlns="http://www.w3.org/2000/svg" width="120px" height="120px" viewBox="0 0 1280.000000 1280.000000" preserveAspectRatio="xMidYMid meet"><metadata>Created by potrace 1.15, written by Peter Selinger 2001-2017</metadata><g transform="translate(0.000000,1280.000000) scale(0.100000,-0.100000)" stroke="none"><path d="M4969 10256 c-646 -572 -1825 -1616 -2620 -2320 -794 -703 -1445 -1282 -1447 -1286 -3 -8 537 -620 548 -620 4 0 407 354 896 788 489 433 1515 1341 2278 2017 764 677 1426 1263 1472 1302 l82 73 2358 -2090 c1298 -1149 2364 -2089 2369 -2089 6 0 131 138 279 306 196 223 267 309 260 319 -5 7 -1185 1054 -2621 2327 -2305 2040 -2617 2313 -2645 2314 -30 1 -146 -100 -1209 -1041z"/><path d="M2470 9648 l0 -992 33 30 c31 30 1280 1156 1284 1158 0 1 5 180 9 399 l7 397 -667 0 -666 0 0 -992z"/><path d="M5744 9127 c-236 -210 -1070 -949 -1852 -1641 l-1422 -1259 0 -2371 c0 -2275 1 -2373 19 -2411 23 -51 74 -101 120 -117 28 -10 286 -13 1216 -13 l1180 0 5 1065 c5 985 6 1067 22 1097 23 42 80 88 127 102 28 8 315 11 1027 11 939 0 991 -1 1030 -19 57 -26 110 -92 123 -153 7 -33 11 -392 11 -1078 l0 -1030 1163 0 c1261 0 1218 -2 1291 54 19 14 43 45 55 69 l21 43 1 2375 1 2374 -314 280 c-289 258 -3344 2963 -3378 2991 -13 10 -83 -48 -446 -369z"/></g></svg>`;
+      homeButton.href = window.location.pathname;
+
+      postPage.appendChild(homeButton);
+
       // Build Banner
 
       let postBanner = document.createElement('div');
       postBanner.classList.add('post_banner');
-      postBanner.setAttribute('style', `background-image: linear-gradient(transparent 0%, transparent 75%, rgba(0,0,0,0.3) 80%, rgba(0,0,0,1) 100%), url(${post.banner_image.url});`);
+
+      let bannerImage = document.createElement('img');
+      bannerImage.addEventListener('load', this.removeLoadScreen);
+      bannerImage.src = post.banner_image.url;
+      bannerImage.classList.add('banner_background');
+
 
       let bannerContent = document.createElement('div');
       bannerContent.classList.add('banner_content');
@@ -182,8 +199,20 @@ class Iris {
       bannerText.classList.add('banner_text');
       bannerText.innerHTML = post.banner_text;
 
+      let postDescription = document.createElement('p');
+      let postAuthor = document.createElement('p');
+      let postDate = new Date(post.updated_at).toLocaleDateString();
+      let postTime = new Date(post.updated_at).toLocaleTimeString();
+
+
+      postDescription.innerText = "Atualizado em " + postDate + " " + postTime;
+      postAuthor.innerText = "Publicado por " + post.author.email;
+
       bannerContent.appendChild(mainTitle);
       bannerContent.appendChild(bannerText);
+      bannerContent.appendChild(postDescription);
+      bannerContent.appendChild(postAuthor);
+      postBanner.appendChild(bannerImage);
       postBanner.appendChild(bannerContent);
       postPage.appendChild(postBanner);
 
@@ -232,7 +261,7 @@ class Iris {
       let topics = document.createElement('section');
       topics.classList.add('topics');
 
-      post.topics.forEach((topic) => {
+      post.ordered_topics.forEach((topic) => {
         if (topic.image.url != null) {
           let topicImage = document.createElement('img');
           topicImage.classList.add('topic_image');
@@ -347,11 +376,21 @@ class Iris {
       }
     };
 
+    let blog = document.getElementById('blog');
+    blog.addEventListener('load', () => {
+      console.log('hello');
+    });
+
     fetch(this.infoUrl(), headers)
       .then(response => response.json())
       .then((data) => {
         this.accountInfo = data;
 
+        // Set Style according to template
+
+        if (this.accountInfo.template && this.accountInfo.template != '') {
+          this.style(this.accountInfo.template);
+        };
         let query = new URLSearchParams(window.location.search);
         let slug = query.get('post')
 
@@ -361,9 +400,31 @@ class Iris {
           } else {
             this.buildBlog(elementId);
           }
+
+
         }
       })
+
+  }
+
+  async addLoadScreen(){
+    let loadScreen = document.createElement('div');
+    loadScreen.id = 'load-screen'
+    loadScreen.style ="position: fixed; top: 0; bottom: 0; right: 0; left: 0; background-color: rgba(230, 230, 230, 0.6); z-index: 1000; display: flex; justify-content: center; justify-items: center; flex-direction: column; text-align: center;";
+    loadScreen.innerHTML = `<svg class="svg-color" width="100px" height="100px" style="align-self: center;">
+            <circle cx="50" cy="50" ng-attr-r="{{config.radius}}" ng-attr-stroke-width="{{config.width}}" ng-attr-stroke="{{config.stroke}}" ng-attr-stroke-dasharray="{{config.dasharray}}" fill="none" stroke-linecap="round" r="27" stroke-width="7" stroke="gray" stroke-dasharray="42.411500823462205 42.411500823462205" transform="rotate(60 50 50)">
+              <animateTransform attributeName="transform" type="rotate" calcMode="linear" values="0 50 50;360 50 50" keyTimes="0;1" dur="1s" begin="0s" repeatCount="indefinite"></animateTransform>
+            </circle>
+          </svg><p class="svg-color" style="font-family: sans-serif;">CARREGANDO</p>`
+    document.body.appendChild(loadScreen);
+  }
+
+  removeLoadScreen(){
+    let loadScreen = document.getElementById('load-screen');
+    if(loadScreen){
+      loadScreen.remove();
+    }
   }
 }
 
-export default Iris;
+// export default Iris;
