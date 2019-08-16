@@ -87,8 +87,6 @@ class Iris {
         postDescription.innerText = "Atualizado em " + postDate + " " + postTime;
         postAuthor.innerText = post.author.email;
 
-        console.log(post);
-
         postImage.addEventListener('load', this.removeLoadScreen);
         postImage.src = post.banner_image.url;
         postImage.class = 'iris-img';
@@ -375,11 +373,6 @@ class Iris {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     };
-
-    let blog = document.getElementById('blog');
-    blog.addEventListener('load', () => {
-      console.log('hello');
-    });
 
     fetch(this.infoUrl(), headers)
       .then(response => response.json())
