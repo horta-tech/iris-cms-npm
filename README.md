@@ -1,4 +1,4 @@
-# Iris-cms
+# iris-cms
 
 [![npm (scoped)](https://img.shields.io/npm/v/iris-cms.svg)](https://www.npmjs.com/package/iris-cms)
 [![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/iris-cms.svg)](https://www.npmjs.com/package/iris-cms)
@@ -27,7 +27,7 @@ Loads a blog from your Iris Account to your website.
 
 
 
-# How to install using NPM
+## How to install using NPM
 
 ```
 $ npm install iris-cms
