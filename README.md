@@ -7,11 +7,33 @@ Loads a blog from your Iris Account to your website.
 
 ## Install
 
+## Usage with pure HTML
+
+# HTML
+
+```html
+<div id="blog">
+</div>
+
+<script type="module">
+  import { Iris } from "https://cdn.jsdelivr.net/npm/iris-cms/index.js";
+  options = {
+    apiKey: 'YOUR_API_KEY_HERE',
+    elementId: 'blog'
+  }
+  let iris = new Iris(options)
+</script>
+
+<!-- Gets the latest version of Iris and builds the content inside the blog div -->
+```
+
+
+
+## Usage with NPM
+
 ```
 $ npm install iris-cms
 ```
-
-## Usage with NPM
 
 # Blog page
 
@@ -33,24 +55,8 @@ const options = {
 
 let iris = new Iris(options);
 
-//=> Builds the entire blog inside the div
+//=> Builds the content inside the blog div
 
 ```
 
-## Usage with pure HTML
 
-# HTML
-
-```
-<div id="blog">
-</div>
-
-<script type="module">
-  import { Iris } from "https://cdn.jsdelivr.net/npm/iris-cms/index.js";
-  options = {
-    apiKey: 'YOUR_API_KEY_HERE',
-    elementId: 'blog'
-  }
-  let iris = new Iris(options)
-</script>
-```
