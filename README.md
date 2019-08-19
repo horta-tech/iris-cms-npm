@@ -5,9 +5,7 @@
 
 Loads a blog from your Iris Account to your website.
 
-## Install
-
-## Usage with pure HTML
+## How to install using HTML
 
 # HTML
 
@@ -29,7 +27,7 @@ Loads a blog from your Iris Account to your website.
 
 
 
-## Usage with NPM
+## How to install using NPM
 
 ```
 $ npm install iris-cms
