@@ -7,7 +7,7 @@ Loads a blog from your Iris Account to your website.
 
 ## How to install using HTML
 
-# HTML
+### HTML
 
 ```html
 <div id="blog">
@@ -27,13 +27,13 @@ Loads a blog from your Iris Account to your website.
 
 
 
-## How to install using NPM
+# How to install using NPM
 
 ```
 $ npm install iris-cms
 ```
 
-# Blog page
+### HTML
 
 ```html
 <div id="blog">
@@ -41,7 +41,7 @@ $ npm install iris-cms
 
 ```
 
-# Javascript
+### Javascript
 
 ```js
 import Iris from "iris-cms";
