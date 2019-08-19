@@ -8,6 +8,8 @@ class Iris {
     } else {
       this.apiUrl = 'https://iris.horta.dev/api/v1/'
     }
+    let page = document.getElementById(options.elementId);
+    page.innerHTML = '';
     this.buildContent(options.elementId);
   }
 
@@ -309,14 +311,14 @@ class Iris {
         ctaImage.src = post.call_to_action_image.url;
         ctaImage.alt = response.account_name + ' | ' + post.call_to_action_content + ' | ' + post.main_title;
         newCta.classList.add('call-to-action');
-        ctaWrapper.appendChild(ctaImage);
+        ctaLink.appendChild(ctaImage);
       } else{
         newCta.classList.add('call-to-action-imageless');
       }
 
-      ctaWrapper.appendChild(ctaContent);
-      ctaLink.appendChild(ctaWrapper);
-      newCta.appendChild(ctaLink);
+      ctaLink.appendChild(ctaContent);
+      ctaWrapper.appendChild(ctaLink);
+      newCta.appendChild(ctaWrapper);
       postWrapper.appendChild(newCta);
 
       // Build Closure
@@ -348,29 +350,31 @@ class Iris {
 
       postGrid.appendChild(postWrapper);
       postPage.appendChild(postGrid);
-    });
 
-    // Build Post Links
-    let blogGrid = document.createElement('div');
-    blogGrid.classList.add('last_posts');
-    this.getPosts(6).then((posts) => {
-      posts.data.forEach((post) => {
-        let postLink = document.createElement('a');
-        let postImage = document.createElement('img');
-        let postText = document.createElement('h1');
+      // Related posts
 
-        postText.innerHTML = post.main_title;
+      let posts = response.related_posts;
+      let blogGrid = document.createElement('div');
+      blogGrid.classList.add('last_posts');
 
-        postImage.src = post.banner_image.url;
-        postImage.alt = posts.account_name + ' | ' + post.main_title;
-        postLink.href = window.location.pathname + '?post=' + post.slug;
+        posts.forEach((post) => {
+          let postLink = document.createElement('a');
+          let postImage = document.createElement('img');
+          let postText = document.createElement('h1');
 
-        postLink.appendChild(postImage);
-        postLink.appendChild(postText);
-        blogGrid.appendChild(postLink);
+          postText.innerHTML = post.main_title;
 
-      });
-      postGrid.appendChild(blogGrid);
+          postImage.src = post.banner_image;
+          postImage.alt = posts.account_name + ' | ' + post.main_title;
+          postLink.href = window.location.pathname + '?post=' + post.slug;
+
+          postLink.appendChild(postImage);
+          postLink.appendChild(postText);
+          blogGrid.appendChild(postLink);
+
+        });
+        postGrid.appendChild(blogGrid);
+
     });
   }
 
