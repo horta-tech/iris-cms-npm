@@ -1,7 +1,6 @@
 class Iris {
   constructor(options = {}) {
-    this.addLoadScreen();
-    setTimeout(this.removeLoadScreen, 4000);
+
     this.apiKey = options.apiKey
     if (options.testUrl) {
       this.apiUrl = `${options.testUrl}/api/v1/`
@@ -10,10 +9,8 @@ class Iris {
     }
 
     let page = document.getElementById(options.elementId);
+    page.insertAdjacentHTML('afterend', `<div id='${options.elementId}'></div>`);
     page.remove();
-    let newpage = document.createElement('div');
-    newpage.id = options.elementId;
-    document.body.appendChild(newpage);
 
     this.buildContent(options.elementId);
   }
@@ -91,9 +88,10 @@ class Iris {
 
 
         postText.innerHTML = post.main_title;
-
-        postDescription.innerText = "Atualizado em " + postDate + " " + postTime;
-        postAuthor.innerText = post.author.email;
+        if(post.author){
+          postDescription.innerText = "Atualizado em " + postDate + " " + postTime;
+          postAuthor.innerText = post.author.email;
+        }
 
         postImage.addEventListener('load', this.removeLoadScreen);
         postImage.alt = response.account_name + ' | ' + post.main_title;
@@ -214,9 +212,10 @@ class Iris {
       let postDate = new Date(post.updated_at).toLocaleDateString();
       let postTime = new Date(post.updated_at).toLocaleTimeString();
 
-
-      postDescription.innerText = "Atualizado em " + postDate + " " + postTime;
-      postAuthor.innerText = "Publicado por " + post.author.email;
+      if (post.author){
+        postDescription.innerText = "Atualizado em " + postDate + " " + postTime;
+        postAuthor.innerText = "Publicado por " + post.author.email;
+      }
 
       bannerContent.appendChild(mainTitle);
       bannerContent.appendChild(bannerText);
@@ -367,6 +366,10 @@ class Iris {
           let postLink = document.createElement('a');
           let postImage = document.createElement('img');
           let postText = document.createElement('h1');
+          let postPublished = document.createElement('p');
+          let postDate = new Date(post.updated_at).toLocaleDateString();
+
+          postPublished.innerText =  "Atualizado em " + postDate + " " + postTime;
 
           postText.innerHTML = post.main_title;
 
@@ -375,6 +378,7 @@ class Iris {
           postLink.href = window.location.pathname + '?post=' + post.slug;
 
           postLink.appendChild(postImage);
+          postLink.appendChild(postPublished);
           postLink.appendChild(postText);
           blogGrid.appendChild(postLink);
 
@@ -406,6 +410,8 @@ class Iris {
         let slug = query.get('post')
 
         if (document.getElementById(elementId)) {
+          this.addLoadScreen();
+          setTimeout(this.removeLoadScreen, 4000);
           if (slug) {
             this.buildPost(elementId, slug);
           } else {
