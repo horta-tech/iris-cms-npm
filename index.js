@@ -9,7 +9,7 @@ class Iris {
     }
 
     let page = document.getElementById(options.elementId);
-    page.insertAdjacentHTML('afterend', `<div id='${options.elementId}'></div>`);
+    page.insertAdjacentHTML('afterend', `<div id='iris-main-container'><div id='${options.elementId}'></div></div>`);
     page.remove();
 
     this.buildContent(options.elementId);
