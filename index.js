@@ -6,7 +6,7 @@ class Iris {
     } else {
       this.apiUrl = 'https://iris.horta.dev/api/v1/'
     }
-
+    this.developmentMode = options.developmentMode
     let irisContainer = document.getElementById(options.elementId);
     this.buildContent(irisContainer);
   }
@@ -61,7 +61,11 @@ class Iris {
     let style = document.createElement('link');
     style.rel = 'stylesheet';
     style.type = 'text/css';
-    style.href = 'https://iris.horta.dev/styles/' + styleName + '.css';
+    if (this.developmentMode) {
+      style.href = './templates/template1.css';
+    } else {
+      style.href = 'https://iris.horta.dev/styles/' + styleName + '.css';
+    };
     head.appendChild(style);
   };
 
@@ -441,4 +445,4 @@ class Iris {
   }
 }
 
-export default Iris;
+// export default Iris;
