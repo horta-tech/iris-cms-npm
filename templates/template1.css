@@ -2,10 +2,10 @@
 #iris-main-container {
   /*BLOG SECTION*/
   /*POST SECTION*/
-  background-color: red;
+  background-color: white;
 }
 #iris-main-container a:-webkit-any-link {
-  color: red;
+  color: black;
 }
 #iris-main-container #blog {
   font-family: Roboto, Times, serif;
@@ -167,7 +167,7 @@
 }
 #iris-main-container .introduction .internal_link {
   font-weight: bold;
-  color: red;
+  color: black;
   font-size: 18px;
 }
 #iris-main-container .topics {
