@@ -1,5 +1,5 @@
 options = {
-  apiKey: 'AchBRWDwc38ku24GkMfBNHW7',
+  apiKey: 'AGVcmhRMzrs9QYNRpdR6f1Uy',
   developmentMode: true,
   testUrl: 'http://localhost:3000',
   elementId: 'blog'

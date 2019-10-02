@@ -191,6 +191,8 @@ class Iris {
       bannerImage.alt = response.account_name + ' | ' + post.keyphrase.toUpperCase() + ' | ' + post.main_title;
       bannerImage.classList.add('banner_background');
 
+      let authorAndDescription = document.createElement('div');
+      authorAndDescription.classList.add('author-and-description');
 
       let bannerContent = document.createElement('div');
       bannerContent.classList.add('banner_content');
@@ -214,10 +216,12 @@ class Iris {
         postAuthor.innerText = "Publicado por " + post.author.email;
       }
 
+      authorAndDescription.appendChild(postAuthor);
+      authorAndDescription.appendChild(postDescription);
+      bannerContent.appendChild(authorAndDescription);
+      bannerContent.innerHTML += '<hr>';
       bannerContent.appendChild(mainTitle);
       bannerContent.appendChild(bannerText);
-      bannerContent.appendChild(postDescription);
-      bannerContent.appendChild(postAuthor);
       postBanner.appendChild(bannerImage);
       postBanner.appendChild(bannerContent);
       irisContainer.appendChild(postBanner);
@@ -268,25 +272,32 @@ class Iris {
       topics.classList.add('topics');
 
       post.ordered_topics.forEach((topic) => {
+
+        let topicdiv = document.createElement('div');
+        topicdiv.classList.add('topic');
+
         if (topic.image.url != null) {
           let topicImage = document.createElement('img');
           topicImage.classList.add('topic_image');
           topicImage.src = topic.image.url;
           topicImage.alt = response.account_name + ' | ' + topic.title.toUpperCase() + ' | ' + post.main_title;
-          topics.appendChild(topicImage);
+          topicdiv.appendChild(topicImage);
+
         };
 
         let topicTitle = document.createElement('h3');
         topicTitle.classList.add('topic_title');
-        topicTitle.innerHTML = topic.title
+        topicTitle.innerHTML = topic.title;
 
         let topicContent = document.createElement('p');
         topicContent.classList.add('topic_content');
         topicContent.innerHTML = topic.content;
 
 
-        topics.appendChild(topicTitle);
-        topics.appendChild(topicContent);
+        topicdiv.appendChild(topicTitle);
+        topicdiv.appendChild(topicContent);
+
+        topics.appendChild(topicdiv);
       });
 
       postWrapper.appendChild(topics);
@@ -306,20 +317,17 @@ class Iris {
       let ctaContent = document.createElement('p');
       ctaContent.classList.add('cta_content');
       ctaContent.innerHTML = post.call_to_action_content;
+      newCta.classList.add('call-to-action');
 
-      if (post.call_to_action_image.url != null) {
-        let ctaImage = document.createElement('img');
-        ctaImage.classList.add('cta_image');
-        ctaImage.src = post.call_to_action_image.url;
-        ctaImage.alt = response.account_name + ' | ' + post.call_to_action_content + ' | ' + post.main_title;
-        newCta.classList.add('call-to-action');
-        ctaLink.appendChild(ctaImage);
-      } else{
-        newCta.classList.add('call-to-action-imageless');
-      }
+      let ctaButton = document.createElement('Button');
+      ctaButton.classList.add('cta-button')
+      ctaLink.appendChild(ctaButton);
 
-      ctaLink.appendChild(ctaContent);
+      // ctaLink.appendChild(ctaContent);
+      // ctaWrapper.appendChild(ctaLink);
+      ctaWrapper.appendChild(ctaContent)
       ctaWrapper.appendChild(ctaLink);
+      ctaButton.innerHTML = post.call_to_action_link_description;
       newCta.appendChild(ctaWrapper);
       postWrapper.appendChild(newCta);
 
@@ -328,23 +336,10 @@ class Iris {
       let closure = document.createElement('section');
       closure.classList.add('closure');
 
-
-      let closureTitle = document.createElement('h3');
-      closureTitle.classList.add('closure_title');
-      closureTitle.innerHTML = post.closure_title;
-
       let closureText = document.createElement('p');
       closureText.classList.add('closure_text');
       closureText.innerHTML = post.closure_text;
 
-      if (post.closure_image.url != null) {
-        let closureImage = document.createElement('img');
-        closureImage.classList.add('closure_image');
-        closureImage.alt = response.account_name + ' | ' + post.closure_title + ' | ' + post.main_title;
-        closureImage.src = post.closure_image.url;
-        closure.appendChild(closureImage);
-      }
-      closure.appendChild(closureTitle);
       closure.appendChild(closureText);
       postWrapper.appendChild(closure);
 
@@ -360,24 +355,33 @@ class Iris {
       blogGrid.classList.add('last_posts');
 
         posts.forEach((post) => {
+          let postDiv = document.createElement('div');
           let postLink = document.createElement('a');
           let postImage = document.createElement('img');
+          let postSmallDiv = document.createElement('div');
           let postText = document.createElement('h1');
           let postPublished = document.createElement('p');
           let postDate = new Date(post.updated_at).toLocaleDateString();
 
-          postPublished.innerText =  "Atualizado em " + postDate + " " + postTime;
+          postPublished.innerText =  "Atualizado em " + postDate;
 
           postText.innerHTML = post.main_title;
 
           postImage.src = post.banner_image;
-          postImage.alt = posts.account_name + ' | ' + post.main_title;
+          postImage.alt = post.account_name + ' | ' + post.main_title;
           postLink.href = window.location.pathname + '?post=' + post.slug;
 
+          postLink.href = window.location.pathname + '?post=' + post.slug;
+
+          postDiv.classList.add('small_post_banner')
           postLink.appendChild(postImage);
-          postLink.appendChild(postPublished);
-          postLink.appendChild(postText);
-          blogGrid.appendChild(postLink);
+          postSmallDiv.appendChild(postPublished);
+          postSmallDiv.innerHTML += '<hr>';
+          postSmallDiv.appendChild(postText);
+          postSmallDiv.classList.add('small_post_content')
+          postLink.appendChild(postSmallDiv);
+          postDiv.appendChild(postLink);
+          blogGrid.appendChild(postDiv);
 
         });
         postGrid.appendChild(blogGrid);
