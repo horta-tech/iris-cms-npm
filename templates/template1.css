@@ -187,6 +187,7 @@
 }
 #iris-main-container .topics .topic_title {
   font-size: 32px;
+  margin-top: 12px;
 }
 #iris-main-container .topics .topic_content {
   font-size: 20px;
