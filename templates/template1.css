@@ -359,7 +359,6 @@
   }
   #iris-main-container .post_banner .main_title {
     margin: 0;
-    align-self: center;
     text-align: left;
     font-size: 24px;
     font-weight: bold;
@@ -371,13 +370,11 @@
     text-align: justify;
     text-align-last: center;
   }
-  #iris-main-container .post_banner .banner_content .author-and-description {
-    display: block;
+  #iris-main-container .post_banner .banner_content .author-and-description{
+    display: flex;
     width: 100%;
-    margin-bottom: 1px;
-  }
-  #iris-main-container .post_banner .banner_content .author-and-description p {
-    margin: 0 auto;
+    justify-content: space-between;
+    margin-bottom: -16px;
   }
   #iris-main-container .post_banner .banner_content .main_title {
     margin-top: 33px;
@@ -528,6 +525,15 @@
     display: grid;
     grid-gap: 4px;
     grid-template-columns: 1fr;
+  }
+  #iris-main-container .post_banner .banner_content .author-and-description {
+    display: block;
+    width: 100%;
+    margin-bottom: 1px;
+  }
+  #iris-main-container .post_banner .banner_content .author-and-description  p {
+    margin: 0 auto;
+    margin-bottom: 5px
   }
   #iris-main-container .last_posts a {
     height: 100%;
