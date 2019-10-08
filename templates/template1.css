@@ -8,7 +8,7 @@
   color: #ed1b24;
   text-decoration: none;
 }
-#iris-main-container #blog {
+#blog {
   font-family: Roboto, Times, serif;
   text-decoration: none;
 }
@@ -107,7 +107,7 @@
   width: 100%;
   height: 80vh;
   /* if you have a 70px navbar => height: calc(100vh - 70px); */
-  background-image: linear-gradient(transparent 0%, transparent 64%, rgba(0, 0, 0, 0.6) 80%, black 100%);
+  background: linear-gradient(transparent 0%, transparent 64%, rgba(0, 0, 0, 0.6) 80%, black 100%);
   background-size: cover !important;
   background-position: center center;
   background-filter: brightness(50%);
@@ -129,7 +129,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 0 80px;
+  padding: 60px 80px 0;
   background: rgba(30, 30, 30, 0.6);
   background: linear-gradient(to bottom, rgba(30, 30, 30, 0.0) 0%, rgba(30, 30, 30, 0.6) 30%, #131313 100%)
 }
@@ -150,6 +150,7 @@
   font-weight: bold;
   text-shadow: 0px 1px rgba(0, 0, 0, 0.2);
   margin-bottom: 0px;
+  margin-top: 30px;
 }
 #iris-main-container .post_banner .banner_text {
   font-size: 25px;
@@ -228,6 +229,7 @@
 #iris-main-container .call-to-action .cta-wrapper .cta_content{
   text-align: justify;
   text-align-last: center;
+  margin: 20px auto;
 }
 #iris-main-container .closure {
   padding: 0px 40px 50px;
