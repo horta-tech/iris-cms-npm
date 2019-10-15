@@ -62,7 +62,7 @@ class Iris {
     style.rel = 'stylesheet';
     style.type = 'text/css';
     if (this.developmentMode) {
-      style.href = './templates/template1.css';
+      style.href = `./templates/${styleName}.css`;
     } else {
       style.href = 'https://iris.horta.dev/styles/' + styleName + '.css';
     };
