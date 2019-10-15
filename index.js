@@ -73,60 +73,31 @@ class Iris {
     let blogGrid = document.createElement('div');
     blogGrid.classList.add('blog_grid');
     this.getPosts().then((response) => {
+
+      // Set Meta tags
+      let head = document.querySelector('head');
+
+      let metaViewport = document.createElement('meta')
+      metaViewport.name = "viewport";
+      metaViewport.setAttribute('content', 'width=device-width, initial-scale=1');
+
+      let metaHttp = document.createElement('meta')
+      metaHttp.name = "http-equiv";
+      metaHttp.setAttribute('content', "IE=edge,chrome=1")
+
+      head.appendChild(metaViewport);
+      head.appendChild(metaHttp);
+
       let posts = response.data;
       posts.slice(0, 3).forEach((post) => {
-        let postDiv = document.createElement('div');
-        postDiv.style = `background-image: url(${post.banner_image.url})`;
-        postDiv.classList.add('post-div');
-
-        let postLink = document.createElement('a');
-        // let postImage = document.createElement('img');
-        let postText = document.createElement('h3');
-        let postDescription = document.createElement('p');
-        let postUpdateInfo = document.createElement('p');
-        let postDate = new Date(post.updated_at).toLocaleDateString();
-        let postTime = new Date(post.updated_at).toLocaleTimeString();
-
-        postText.innerHTML = post.main_title;
-
-        postDescription.classList.add('description');
-        postDescription.innerHTML = post.secondary_title;
-
-        postUpdateInfo.classList.add('updatedinfo');
-        postUpdateInfo.innerText = "Atualizado em " + postDate;
-
-        // postImage.addEventListener('load', this.removeLoadScreen);
-        // postImage.alt = response.account_name + ' | ' + post.main_title;
-        // postImage.src = post.banner_image.url;
-        // postImage.class = 'iris-img';
-
-        postLink.href = window.location.href + '?post=' + post.slug;
-
-        let bannerInfo = document.createElement('div');
-        bannerInfo.classList.add('banner-info');
-        bannerInfo.appendChild(postUpdateInfo);
-        bannerInfo.innerHTML += '<hr>';
-        bannerInfo.appendChild(postText);
-        postDiv.appendChild(bannerInfo);
-        // postLink.appendChild(postImage);
-        // postLink.appendChild(postUpdateInfo);
-        // postLink.appendChild(postText);
-        postLink.appendChild(postDiv);
-        postLink.appendChild(postDescription);
-        blogGrid.appendChild(postLink);
+        let postCard = this.postCard(post);
+        blogGrid.appendChild(postCard);
       });
     });
     irisContainer.appendChild(blogGrid);
-    // h2 são os "em destaque" e "mais notícias"
-    let subTitleDiv1 = document.createElement('div');
-    subTitleDiv1.classList.add('sub-title-div');
 
-    let subTitle1 = document.createElement('h2');
-    subTitle1.classList.add('sub-title');
-    subTitle1.innerHTML = 'EM DESTAQUE';
-
-    subTitleDiv1.appendChild(subTitle1);
-    irisContainer.appendChild(subTitleDiv1);
+    let subTitle1 = this.titleH2('EM DESTAQUE');
+    irisContainer.appendChild(subTitle1);
 
     let highlightedPosts = document.createElement('div');
     highlightedPosts.classList.add('highlighted-posts');
@@ -134,50 +105,15 @@ class Iris {
     this.getPosts().then((response) => {
       let posts = response.data;
       posts.slice(3, 6).forEach((post) => {
-        let postDiv = document.createElement('div');
-        postDiv.style = `background-image: url(${post.banner_image.url})`;
-        postDiv.classList.add('post-div');
-
-        let postLink = document.createElement('a');
-        // let postImage = document.createElement('img');
-        let postText = document.createElement('h3');
-        let postDescription = document.createElement('p');
-        let postUpdateInfo = document.createElement('p');
-        let postDate = new Date(post.updated_at).toLocaleDateString();
-        let postTime = new Date(post.updated_at).toLocaleTimeString();
-
-        postText.innerHTML = post.main_title;
-
-        postDescription.classList.add('description');
-        postDescription.innerHTML = post.secondary_title;
-
-        postUpdateInfo.classList.add('updatedinfo');
-        postUpdateInfo.innerText = "Atualizado em " + postDate;
-
-        let bannerInfo = document.createElement('div');
-        bannerInfo.classList.add('banner-info');
-        bannerInfo.appendChild(postUpdateInfo);
-        bannerInfo.innerHTML += '<hr>';
-        bannerInfo.appendChild(postText);
-        postDiv.appendChild(bannerInfo);
-        postLink.appendChild(postDiv);
-        postLink.appendChild(postDescription);
-
-        highlightedPosts.appendChild(postLink);
+        let postCard = this.postCard(post);
+        highlightedPosts.appendChild(postCard);
       });
     });
 
     irisContainer.appendChild(highlightedPosts);
 
-    let subTitleDiv2 = document.createElement('div');
-    subTitleDiv2.classList.add('sub-title-div');
-
-    let subTitle2 =document.createElement('h2');
-    subTitle2.classList.add('sub-title');
-    subTitle2.innerHTML = 'MAIS NOT&IacuteCIAS';
-
-    subTitleDiv2.appendChild(subTitle2);
-    irisContainer.appendChild(subTitleDiv2);
+    let subTitle2 = this.titleH2('MAIS NOT&IacuteCIAS');
+    irisContainer.appendChild(subTitle2);
 
     let morePosts = document.createElement('div');
     morePosts.classList.add('more-posts');
@@ -185,41 +121,56 @@ class Iris {
     this.getPosts().then((response) => {
       let posts = response.data;
       posts.slice(6).forEach((post) => {
-        let postDiv = document.createElement('div');
-        postDiv.style = `background-image: url(${post.banner_image.url})`;
-        postDiv.classList.add('post-div');
-
-        let postLink = document.createElement('a');
-        // let postImage = document.createElement('img');
-        let postText = document.createElement('h3');
-        let postDescription = document.createElement('p');
-        let postUpdateInfo = document.createElement('p');
-        let postDate = new Date(post.updated_at).toLocaleDateString();
-        let postTime = new Date(post.updated_at).toLocaleTimeString();
-
-        postText.innerHTML = post.main_title;
-
-        postDescription.classList.add('description');
-        postDescription.innerHTML = post.secondary_title;
-
-        postUpdateInfo.classList.add('updatedinfo');
-        postUpdateInfo.innerText = "Atualizado em " + postDate;
-
-        let bannerInfo = document.createElement('div');
-        bannerInfo.classList.add('banner-info');
-        bannerInfo.appendChild(postUpdateInfo);
-        bannerInfo.innerHTML += '<hr>';
-        bannerInfo.appendChild(postText);
-        postDiv.appendChild(bannerInfo);
-        postLink.appendChild(postDiv);
-        postLink.appendChild(postDescription);
-
-        morePosts.appendChild(postLink);
+        let postCard = this.postCard(post);
+        morePosts.appendChild(postCard);
       });
     });
 
     irisContainer.appendChild(morePosts);
-  }
+  };
+
+  postCard(post) {
+    let postDiv = document.createElement('div');
+    postDiv.style = `background-image: url(${post.banner_image.url})`;
+    postDiv.classList.add('post-div');
+
+    let postLink = document.createElement('a');
+    let postText = document.createElement('h3');
+    let postDescription = document.createElement('p');
+    let postUpdateInfo = document.createElement('p');
+    let postDate = new Date(post.updated_at).toLocaleDateString();
+    let postTime = new Date(post.updated_at).toLocaleTimeString();
+
+    postText.innerHTML = post.main_title;
+
+    postDescription.classList.add('description');
+    postDescription.innerHTML = post.secondary_title;
+
+    postUpdateInfo.classList.add('updatedinfo');
+    postUpdateInfo.innerText = "Atualizado em " + postDate;
+
+    postLink.href = window.location.href + '?post=' + post.slug;
+
+    let bannerInfo = document.createElement('div');
+    bannerInfo.classList.add('banner-info');
+    bannerInfo.appendChild(postUpdateInfo);
+    bannerInfo.innerHTML += '<hr>';
+    bannerInfo.appendChild(postText);
+    postDiv.appendChild(bannerInfo);
+    postLink.appendChild(postDiv);
+    postLink.appendChild(postDescription);
+    return postLink;
+  };
+
+  titleH2(text) {
+    let subTitleDiv = document.createElement('div');
+    subTitleDiv.classList.add('sub-title-div');
+    let subTitle = document.createElement('h2');
+    subTitle.classList.add('sub-title');
+    subTitle.innerHTML = text;
+    subTitleDiv.appendChild(subTitle);
+    return subTitleDiv;
+  };
 
   buildPost(irisContainer, slug) {
 
@@ -528,6 +479,7 @@ class Iris {
         irisContainer.innerHTML = '';
         let mainContainer = document.createElement('div');
         mainContainer.setAttribute("id", "iris-main-container");
+
         irisContainer.appendChild(mainContainer);
 
         if (slug) {
@@ -559,4 +511,4 @@ class Iris {
   }
 }
 
-export default Iris;
+// export default Iris;
