@@ -62,7 +62,7 @@ class Iris {
     style.rel = 'stylesheet';
     style.type = 'text/css';
     if (this.developmentMode) {
-      style.href = './templates/template1.css';
+      style.href = `./templates/${styleName}.css`;
     } else {
       style.href = 'https://iris.horta.dev/styles/' + styleName + '.css';
     };
@@ -75,6 +75,7 @@ class Iris {
     this.getPosts().then((response) => {
 
       // Set Meta tags
+
       let head = document.querySelector('head');
 
       let metaViewport = document.createElement('meta')
@@ -88,45 +89,65 @@ class Iris {
       head.appendChild(metaViewport);
       head.appendChild(metaHttp);
 
+      let subTitleDiv = document.createElement('div');
+      subTitleDiv.classList.add('sub-title-div');
+
+      let subTitle = document.createElement('h1');
+      subTitle.classList.add('sub-title');
+      subTitle.innerHTML = response.account_name.toUpperCase();
+      subTitleDiv.appendChild(subTitle);
+      irisContainer.appendChild(subTitleDiv);
+
       let posts = response.data;
       posts.slice(0, 3).forEach((post) => {
         let postCard = this.postCard(post);
         blogGrid.appendChild(postCard);
       });
-    });
-    irisContainer.appendChild(blogGrid);
 
-    let subTitle1 = this.titleH2('EM DESTAQUE');
-    irisContainer.appendChild(subTitle1);
+      irisContainer.appendChild(blogGrid);
 
-    let highlightedPosts = document.createElement('div');
-    highlightedPosts.classList.add('highlighted-posts');
+      let subTitle1 = this.titleH2('EM DESTAQUE');
+      irisContainer.appendChild(subTitle1);
 
-    this.getPosts().then((response) => {
-      let posts = response.data;
+      let highlightedPosts = document.createElement('div');
+      highlightedPosts.classList.add('highlighted-posts');
+
       posts.slice(3, 6).forEach((post) => {
         let postCard = this.postCard(post);
         highlightedPosts.appendChild(postCard);
       });
+
+      irisContainer.appendChild(highlightedPosts);
+
+      let subTitle2 = this.titleH2('MAIS NOT&IacuteCIAS');
+      irisContainer.appendChild(subTitle2);
+
+      let morePosts = document.createElement('div');
+      morePosts.classList.add('more-posts');
+
+      let lastPosts = posts.slice(6);
+
+      let lastThreePosts = document.createElement('div');
+      lastThreePosts.classList.add('last-three-posts')
+
+      if (lastPosts.length % 2) {
+          lastPosts.slice(0,-3).forEach((post) => {
+            let postCard = this.postCard(post);
+            morePosts.appendChild(postCard);
+          })
+        lastPosts.slice(-3).forEach((post) => {
+          let postCard = this.postCard(post);
+          lastThreePosts.appendChild(postCard);
+        })
+      } else {
+        lastPosts.forEach((post) => {
+          let postCard = this.postCard(post);
+          morePosts.appendChild(postCard);
+        })
+      };
+      irisContainer.appendChild(morePosts);
+      irisContainer.appendChild(lastThreePosts);
     });
-
-    irisContainer.appendChild(highlightedPosts);
-
-    let subTitle2 = this.titleH2('MAIS NOT&IacuteCIAS');
-    irisContainer.appendChild(subTitle2);
-
-    let morePosts = document.createElement('div');
-    morePosts.classList.add('more-posts');
-
-    this.getPosts().then((response) => {
-      let posts = response.data;
-      posts.slice(6).forEach((post) => {
-        let postCard = this.postCard(post);
-        morePosts.appendChild(postCard);
-      });
-    });
-
-    irisContainer.appendChild(morePosts);
   };
 
   postCard(post) {
@@ -173,7 +194,6 @@ class Iris {
   };
 
   buildPost(irisContainer, slug) {
-
     let postGrid = document.createElement('div');
     postGrid.classList.add('post-grid');
 
@@ -183,17 +203,39 @@ class Iris {
     this.getPost(slug).then((response) => {
       let post = response.data
 
-      // Set META tags
+      // Set head
 
-      let head = document.getElementsByTagName('head')[0]
+      let head = document.querySelector('head');
 
-      let title = document.getElementsByTagName('title')[0]
+      if (!head) {
+        head = document.createElement('head');
+        if (irisContainer.parentElement.parentElement.parentElement) {
+          irisContainer.parentElement.parentElement.parentElement.insertAdjacentHTML('afterbegin', head);
+        } else if (irisContainer.parentElement.parentElement) {
+          irisContainer.parentElement.parentElement.insertAdjacentHTML('afterbegin', head);
+        }
+      };
+
+      let title = document.querySelector('title');
+
       let titleText = post.main_title
       if (post.seo_title) {
-      titleText = post.seo_title
+        titleText = post.seo_title
       }
-      title.innerHTML += ` | ${titleText}`
-      if (title.innerHTML.length > 70) { title.innerHTML = title.innerHTML.substring(0,67) + "..."}
+
+      // Set Seo Title
+
+      if (title) {
+        title.innerHTML = `${response.account_name} | ${titleText}`
+        if (title.innerHTML.length > 70) { title.innerHTML = title.innerHTML.substring(0,67) + "..." }
+      } else {
+        title = document.createElement('title')
+        title.innerHTML = `${response.account_name} | ${titleText}`
+        if (title.innerHTML.length > 70) { title.innerHTML = title.innerHTML.substring(0,67) + "..." }
+        head.insertAdjacentHTML('afterbegin', title);
+      };
+
+      // Set META tags
 
       let metaDescription = document.createElement('meta')
       metaDescription.name = "description";
@@ -203,7 +245,7 @@ class Iris {
       ogTitle.setAttribute('property', 'og:title');
       ogTitle.setAttribute('content', post.seo_title);
 
-      let ogDescription = document.createElement('meta')
+      let ogDescription = document.createElement('meta');
       ogDescription.setAttribute('property', 'og:description');
       ogDescription.setAttribute('content', post.meta_description);;
 
@@ -309,6 +351,8 @@ class Iris {
 
         let newLink = document.createElement('a');
         newLink.classList.add('internal_link');
+        newLink.setAttribute( 'target','_blank' );
+
         newLink.href = link.url;
         newLink.innerHTML = link.text;
 
@@ -341,9 +385,13 @@ class Iris {
           let topicImage = document.createElement('img');
           topicImage.classList.add('topic_image');
           topicImage.src = topic.image.url;
-          topicImage.alt = response.account_name + ' | ' + topic.title.toUpperCase() + ' | ' + post.main_title;
+          topicImage.alt = topic.title;
           topicdiv.appendChild(topicImage);
 
+          let imageLabel = document.createElement('p');
+          imageLabel.innerHTML = topic.label;
+          imageLabel.classList.add('image-label');
+          topicdiv.appendChild(imageLabel);
         };
 
         let topicTitle = document.createElement('h3');
@@ -384,8 +432,6 @@ class Iris {
       ctaButton.classList.add('cta-button')
       ctaLink.appendChild(ctaButton);
 
-      // ctaLink.appendChild(ctaContent);
-      // ctaWrapper.appendChild(ctaLink);
       ctaWrapper.appendChild(ctaContent)
       ctaWrapper.appendChild(ctaLink);
       ctaButton.innerHTML = post.call_to_action_link_description;
@@ -425,6 +471,7 @@ class Iris {
           let postDate = new Date(post.updated_at).toLocaleDateString();
 
           postPublished.innerText =  "Atualizado em " + postDate;
+          postPublished.classList.add("published");
 
           postText.innerHTML = post.main_title;
 
@@ -436,8 +483,9 @@ class Iris {
 
           postDiv.classList.add('small_post_banner')
           postLink.appendChild(postImage);
-          postSmallDiv.appendChild(postPublished);
-          postSmallDiv.innerHTML += '<hr>';
+          postLink.appendChild(postPublished);
+          // postSmallDiv.appendChild(postPublished);
+          // postSmallDiv.innerHTML += '<hr>';
           postSmallDiv.appendChild(postText);
           postSmallDiv.classList.add('small_post_content')
           postLink.appendChild(postSmallDiv);
@@ -511,4 +559,4 @@ class Iris {
   }
 }
 
-// export default Iris;
+export default Iris;
