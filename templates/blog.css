@@ -1,9 +1,11 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+
 #iris-main-container {
   /*BLOG SECTION*/
   /*POST SECTION*/
   background-color: #f9f9f9;
   font-family: Roboto, Times, serif;
+/*  padding: 5px;*/
 }
 #iris-main-container a:-webkit-any-link {
   color: #ed1b24;
@@ -45,12 +47,12 @@
   transition: 0.5s;
 }
 #iris-main-container a .banner-info .updatedinfo {
-  margin-bottom: 0;
+  margin-bottom: -6px;
   font-size: 12px;
 }
 #iris-main-container a .banner-info hr {
   border-bottom: 1px solid rgba(255, 255, 255, 1);
-  margin: 5px 0 0px;
+  margin: 5px 0 -5px;
   width: 100%
 }
 #iris-main-container a .banner-info h3 {
@@ -265,8 +267,6 @@
   padding: 1px 40px;
 }
 #iris-main-container .call-to-action .cta-wrapper .cta_content{
-  text-align: justify;
-  text-align-last: center;
   margin: 20px auto;
 }
 #iris-main-container .closure {
@@ -303,7 +303,8 @@
   align-items: flex-start;
   justify-content: flex-start;
   background: rgba(30, 30, 30, 0.6);
-  background: linear-gradient(to bottom, rgba(30, 30, 30, 0.0) 0%, rgba(30, 30, 30, 0.6) 30%, #131313 100%)
+  text-shadow: 1px 1px 3px rgba(0,0,0,1);
+  height: 40vh;
 }
 #iris-main-container .small_post_content {
   display: flex;
@@ -316,11 +317,13 @@
   right: 0;
   padding: 7px 15px;
   background: rgba(30, 30, 30, 0.6);
+  align-items: center;
   background: linear-gradient(to bottom, rgba(30, 30, 30, 0.0) 0%, rgba(30, 30, 30, 0.6) 30%, #131313 100%);
 }
-#iris-main-container .last_posts .small_post_banner .small_post_content hr {
-  border-bottom: 1px solid rgba(255, 255, 255, 1);
-  width: 100%;
+#iris-main-container .last_posts .small_post_banner .published {
+  position: absolute;
+  top: -10px;
+  right: 15px;
   color: white;
 }
 #iris-main-container .last_posts a {
@@ -350,6 +353,7 @@
   font-weight: lighter;
   color: white;
   margin: 0px;
+  text-align: center;
 /*  width: calc(100% - 24px);*/
 }
 #iris-main-container .sub-title-div {
@@ -364,14 +368,14 @@
   left: 0;
   border-bottom: 1px solid #009688;
 }
-#iris-main-container .sub-title-div h2 {
+#iris-main-container .sub-title-div h2 , #iris-main-container .sub-title-div h1 {
   overflow: hidden;
-  background-color: white;
+  background-color: #f9f9f9;
   display: inline-block;
   position: relative;
   padding-right: 15px;
 }
-#iris-main-container .sub-title-div h2::before {
+#iris-main-container .sub-title-div h2::before, #iris-main-container .sub-title-div h1::before {
   width: 15px;
   height: 15px;
   content: '';
@@ -379,7 +383,7 @@
   background: #547AB5;
   border-radius: 20px;
   vertical-align: middle;
-  margin: -4px 20px 0 0;
+  margin: -4px 20px 0 15px;
 }
 #iris-main-container .highlighted-posts {
   padding: 8px;
@@ -403,7 +407,14 @@
   grid-template-columns: 1fr 1fr;
   grid-auto-rows: 270px;
 }
-#iris-main-container .more-posts a {
+#iris-main-container .last-three-posts {
+  padding: 0 8px;
+  display: grid;
+  grid-gap: 8px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-rows: 270px;
+}
+#iris-main-container .more-posts a, #iris-main-container .last-three-posts a {
   position: relative;
   max-width: 100%;
   max-height: 100%;
@@ -411,7 +422,7 @@
   transform: scale(1);
   overflow: hidden;
 }
-#iris-main-container .more-posts a img {
+#iris-main-container .more-posts a img, #iris-main-container .last-three-posts a img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -424,6 +435,10 @@
   #iris-main-container .blog_grid {
     grid-template-columns: 1fr 1fr;
     grid-auto-rows: 50vw;
+  }
+  #iris-main-container .highlighted-posts {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 35vw;
   }
   #iris-main-container .blog_grid a img {
     filter: brightness(50%);
@@ -446,10 +461,6 @@
     position: absolute;
     bottom: 0;
     left: 8px;
-  }
-  #iris-main-container .highlighted-posts {
-    grid-template-columns: 1fr 1fr;
-    grid-auto-rows: 50vw;
   }
   #iris-main-container .highlighted-posts h3 {
     font-size: 30px;
@@ -555,6 +566,11 @@
     width: 80%;
     margin: 0;
     background-color: transparent;
+  }
+}
+@media (max-width: 700px) {
+  #iris-main-container .last-three-posts {
+    grid-template-columns: 1fr 1fr;
   }
 }
 @media (max-width: 425px) {
@@ -665,6 +681,9 @@
   }
   #iris-main-container .closure {
     padding: 24px 0;
+  }
+  #iris-main-container .last-three-posts {
+    grid-template-columns: 1fr;
   }
 }
 @media (max-width: 320px) {
