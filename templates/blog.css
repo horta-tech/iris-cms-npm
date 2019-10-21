@@ -304,7 +304,7 @@
   justify-content: flex-start;
   background: rgba(30, 30, 30, 0.6);
   text-shadow: 1px 1px 3px rgba(0,0,0,1);
-  height: 40vh;
+  height: 25vh;
 }
 #iris-main-container .small_post_content {
   display: flex;
