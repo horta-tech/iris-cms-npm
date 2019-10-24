@@ -241,15 +241,19 @@ class Iris {
       metaDescription.name = "description";
       metaDescription.setAttribute('content', post.meta_description);
 
+      let metakKyphrase = document.createElement('meta');
+      metaDescription.name = "keywords";
+      metakKyphrase.setAttribute('content', post.keyphrase);
+
       let ogTitle = document.createElement('meta')
       ogTitle.setAttribute('property', 'og:title');
       ogTitle.setAttribute('content', post.seo_title);
 
       let ogDescription = document.createElement('meta');
       ogDescription.setAttribute('property', 'og:description');
-      ogDescription.setAttribute('content', post.meta_description);;
+      ogDescription.setAttribute('content', post.meta_description);
 
-      let ogType = document.createElement('meta')
+      let ogType = document.createElement('meta');
       ogType.setAttribute('property', 'og:type');
       ogType.setAttribute('content', 'website');
 
@@ -385,7 +389,9 @@ class Iris {
           let topicImage = document.createElement('img');
           topicImage.classList.add('topic_image');
           topicImage.src = topic.image.url;
-          topicImage.alt = topic.title;
+          topicImage.alt = topic.label;
+          let topicImagePath = topic.image.url.split(/\/|\./);
+          topicImage.title = topicImagePath[topicImagePath.length - 2];
           topicdiv.appendChild(topicImage);
 
           let imageLabel = document.createElement('p');
@@ -476,7 +482,7 @@ class Iris {
           postText.innerHTML = post.main_title;
 
           postImage.src = post.banner_image;
-          postImage.alt = post.account_name + ' | ' + post.main_title;
+          postImage.alt = response.account_name + ' | ' + post.main_title;
           postLink.href = window.location.pathname + '?post=' + post.slug;
 
           postLink.href = window.location.pathname + '?post=' + post.slug;
@@ -484,8 +490,6 @@ class Iris {
           postDiv.classList.add('small_post_banner')
           postLink.appendChild(postImage);
           postLink.appendChild(postPublished);
-          // postSmallDiv.appendChild(postPublished);
-          // postSmallDiv.innerHTML += '<hr>';
           postSmallDiv.appendChild(postText);
           postSmallDiv.classList.add('small_post_content')
           postLink.appendChild(postSmallDiv);

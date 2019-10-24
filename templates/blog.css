@@ -52,7 +52,7 @@
 }
 #iris-main-container a .banner-info hr {
   border-bottom: 1px solid rgba(255, 255, 255, 1);
-  margin: 5px 0 -5px;
+  margin: 5px 0 0px;
   width: 100%
 }
 #iris-main-container a .banner-info h3 {
@@ -64,7 +64,8 @@
 }
 #iris-main-container a .banner-info {
   font-size: 16px;
-  width: calc(100% - 60px);
+  left: 0;
+  right: 0;
   color: white;
   display: flex;
   flex-direction: column;
@@ -77,7 +78,8 @@
 #iris-main-container a .description {
   display: none;
   transition: 0.5s;
-  width: calc(100% - 16px);
+  left: 0;
+  right: 0;
   font-size: 14px;
   color: white;
   position: absolute;
@@ -223,13 +225,16 @@
   object-fit: cover;
   max-height: 80vh;
 }
+#iris-main-container .topics .topic .image-label {
+  margin-top: 0px;
+}
 #iris-main-container .topics .topic_title {
-  font-size: 22px;
+  font-size: 24px;
   margin-top: 22px;
   margin-bottom: 9px;
 }
 #iris-main-container .topics .topic_content {
-  font-size: 20px;
+  font-size: 17px;
   margin: 0px;
   padding-bottom: 16px;
 }
@@ -322,9 +327,10 @@
 }
 #iris-main-container .last_posts .small_post_banner .published {
   position: absolute;
-  top: -10px;
+  top: 0px;
   right: 15px;
   color: white;
+  font-size: 13px;
 }
 #iris-main-container .last_posts a {
   height: 100%;
