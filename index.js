@@ -162,7 +162,7 @@ class Iris {
     let postDate = new Date(post.updated_at).toLocaleDateString();
     let postTime = new Date(post.updated_at).toLocaleTimeString();
 
-    postText.innerHTML = post.main_title;
+    postText.innerHTML = post.main_title.toUpperCase();
 
     postDescription.classList.add('description');
     postDescription.innerHTML = post.secondary_title;
