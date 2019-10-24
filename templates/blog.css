@@ -48,15 +48,15 @@
 }
 #iris-main-container a .banner-info .updatedinfo {
   margin-bottom: -6px;
-  font-size: 12px;
+  font-size: 13px;
 }
 #iris-main-container a .banner-info hr {
   border-bottom: 1px solid rgba(255, 255, 255, 1);
-  margin: 5px 0 0px;
+  margin: 5px 0 5px;
   width: 100%
 }
 #iris-main-container a .banner-info h3 {
-  font-size: 17px;
+  font-size: 19px;
   text-align: center;
 }
 #iris-main-container a .banner-info p {
@@ -80,7 +80,7 @@
   transition: 0.5s;
   left: 0;
   right: 0;
-  font-size: 14px;
+  font-size: 17px;
   color: white;
   position: absolute;
   bottom: 0;
