@@ -295,7 +295,7 @@ class Iris {
       let bannerImage = document.createElement('img');
       bannerImage.addEventListener('load', this.removeLoadScreen);
       bannerImage.src = post.banner_image.url;
-      bannerImage.alt = response.account_name + ' | ' + post.keyphrase.toUpperCase() + ' | ' + post.main_title;
+      bannerImage.alt = response.account_name + ' | ' + post.keyphrase + ' | ' + post.main_title;
       bannerImage.classList.add('banner_background');
 
       let authorAndDescription = document.createElement('div');
