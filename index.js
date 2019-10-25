@@ -94,7 +94,7 @@ class Iris {
 
       let subTitle = document.createElement('h1');
       subTitle.classList.add('sub-title');
-      subTitle.innerHTML = response.account_name;
+      subTitle.innerHTML = response.account_name.toUpperCase();
       subTitleDiv.appendChild(subTitle);
       irisContainer.appendChild(subTitleDiv);
 
@@ -162,7 +162,7 @@ class Iris {
     let postDate = new Date(post.updated_at).toLocaleDateString();
     let postTime = new Date(post.updated_at).toLocaleTimeString();
 
-    postText.innerHTML = post.main_title.toUpperCase();
+    postText.innerHTML = post.main_title;
 
     postDescription.classList.add('description');
     postDescription.innerHTML = post.secondary_title;
