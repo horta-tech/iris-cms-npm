@@ -14,8 +14,8 @@ Loads a blog from your Iris Account to your website.
 </div>
 
 <script type="module">
-  import { Iris } from "https://cdn.jsdelivr.net/npm/iris-cms/index.js";
-  options = {
+  import Iris from "https://cdn.jsdelivr.net/npm/iris-cms/index.js";
+  const options = {
     apiKey: 'YOUR_API_KEY_HERE',
     elementId: 'blog'
   }
