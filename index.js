@@ -563,4 +563,4 @@ class Iris {
   }
 }
 
-// export default Iris;
+export default Iris;
