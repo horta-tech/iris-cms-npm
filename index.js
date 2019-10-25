@@ -94,7 +94,7 @@ class Iris {
 
       let subTitle = document.createElement('h1');
       subTitle.classList.add('sub-title');
-      subTitle.innerHTML = response.account_name.toUpperCase();
+      subTitle.innerHTML = response.account_name;
       subTitleDiv.appendChild(subTitle);
       irisContainer.appendChild(subTitleDiv);
 
