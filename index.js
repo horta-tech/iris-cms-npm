@@ -78,34 +78,61 @@ class Iris {
 
       let head = document.querySelector('head');
 
-      let metaViewport = document.createElement('meta')
+      if (!head) {
+        head = document.createElement('head');
+        let html = document.querySelector('html');
+        html.insertAdjacentHTML('afterbegin', head);
+      };
+
+      let hasMetaDescription = false;
+      let hasMetaKeywords = false;
+      let hasTitle = false;
+
+      head.querySelectorAll('meta').forEach ((meta) => {
+        if (meta.name === 'description') {
+          hasMetaDescription = true;
+        }
+      });
+
+      head.querySelectorAll('meta').forEach ((meta) => {
+        if (meta.name === 'keywords') {
+          hasMetaKeywords = true;
+        }
+      });
+
+      if (head.querySelector('title')) {
+        hasTitle = true;
+      }
+
+
+      let metaViewport = document.createElement('meta');
       metaViewport.name = "viewport";
       metaViewport.setAttribute('content', 'width=device-width, initial-scale=1');
 
       let metaHttp = document.createElement('meta');
       metaHttp.name = "http-equiv";
-      metaHttp.setAttribute('content', "IE=edge,chrome=1")
+      metaHttp.setAttribute('content', "IE=edge,chrome=1");
 
       head.appendChild(metaViewport);
       head.appendChild(metaHttp);
 
-      if (response.account_title) {
+      if (response.account_title && !hasTitle) {
         let accountTitle = document.createElement('title');
         accountTitle.innerHTML = `${response.account_title}`;
         head.appendChild(accountTitle);
       };
 
-      if (response.account_description) {
+      if (response.account_description && !hasMetaDescription) {
         let metaDescrition = document.createElement('meta');
         metaDescrition.name = "description";
-        metaDescrition.setAttribute('content', `${response.account_description}`)
+        metaDescrition.setAttribute('content', `${response.account_description}`);
         head.appendChild(metaDescrition);
       };
 
-      if (response.account_keyword) {
+      if (response.account_keyword && !hasMetaKeywords) {
         let metaKeywords = document.createElement('meta');
         metaKeywords.name = "keywords";
-        metaKeywords.setAttribute('content', `${response.account_keyword}`)
+        metaKeywords.setAttribute('content', `${response.account_keyword}`);
         head.appendChild(metaKeywords);
       };
 
@@ -148,7 +175,7 @@ class Iris {
       let lastPosts = posts.slice(6);
 
       let lastThreePosts = document.createElement('div');
-      lastThreePosts.classList.add('last-three-posts')
+      lastThreePosts.classList.add('last-three-posts');
 
       if (lastPosts.length % 2) {
           lastPosts.slice(0,-3).forEach((post) => {
@@ -229,11 +256,8 @@ class Iris {
 
       if (!head) {
         head = document.createElement('head');
-        if (irisContainer.parentElement.parentElement.parentElement) {
-          irisContainer.parentElement.parentElement.parentElement.insertAdjacentHTML('afterbegin', head);
-        } else if (irisContainer.parentElement.parentElement) {
-          irisContainer.parentElement.parentElement.insertAdjacentHTML('afterbegin', head);
-        }
+        let html = document.querySelector('html');
+        html.insertAdjacentHTML('afterbegin', head);
       };
 
       let title = document.querySelector('title');
@@ -241,12 +265,12 @@ class Iris {
       let titleText = post.main_title
       if (post.seo_title) {
         titleText = post.seo_title
-      }
+      };
 
       // Set Seo Title
 
       if (title) {
-        title.innerHTML = `${response.account_name} | ${titleText}`
+        title.innerHTML = `${response.account_name} | ${titleText}`;
         if (title.innerHTML.length > 70) { title.innerHTML = title.innerHTML.substring(0,67) + "..." }
       } else {
         title = document.createElement('title')
@@ -257,7 +281,7 @@ class Iris {
 
       // Set META tags
 
-      let metaDescription = document.createElement('meta')
+      let metaDescription = document.createElement('meta');
       metaDescription.name = "description";
       metaDescription.setAttribute('content', post.meta_description);
 
@@ -265,7 +289,7 @@ class Iris {
       metaDescription.name = "keywords";
       metakKyphrase.setAttribute('content', post.keyphrase);
 
-      let ogTitle = document.createElement('meta')
+      let ogTitle = document.createElement('meta');
       ogTitle.setAttribute('property', 'og:title');
       ogTitle.setAttribute('content', post.seo_title);
 
@@ -277,11 +301,11 @@ class Iris {
       ogType.setAttribute('property', 'og:type');
       ogType.setAttribute('content', 'website');
 
-      let ogImage = document.createElement('meta')
+      let ogImage = document.createElement('meta');
       ogImage.setAttribute('property', 'og:image');
       ogImage.setAttribute('content', post.banner_image.url);
 
-      let metaViewport = document.createElement('meta')
+      let metaViewport = document.createElement('meta');
       metaViewport.name = "viewport";
       metaViewport.setAttribute('content', 'width=device-width, initial-scale=1');
 
@@ -458,7 +482,7 @@ class Iris {
       ctaButton.classList.add('cta-button')
       ctaLink.appendChild(ctaButton);
 
-      ctaWrapper.appendChild(ctaContent)
+      ctaWrapper.appendChild(ctaContent);
       ctaWrapper.appendChild(ctaLink);
       ctaButton.innerHTML = post.call_to_action_link_description;
       newCta.appendChild(ctaWrapper);
@@ -507,11 +531,11 @@ class Iris {
 
           postLink.href = window.location.pathname + '?post=' + post.slug;
 
-          postDiv.classList.add('small_post_banner')
+          postDiv.classList.add('small_post_banner');
           postLink.appendChild(postImage);
           postLink.appendChild(postPublished);
           postSmallDiv.appendChild(postText);
-          postSmallDiv.classList.add('small_post_content')
+          postSmallDiv.classList.add('small_post_content');
           postLink.appendChild(postSmallDiv);
           postDiv.appendChild(postLink);
           blogGrid.appendChild(postDiv);
