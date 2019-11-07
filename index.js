@@ -78,6 +78,33 @@ class Iris {
 
       let head = document.querySelector('head');
 
+      if (!head) {
+        head = document.createElement('head');
+        let html = document.querySelector('html')
+        html.insertAdjacentHTML('afterbegin', head);
+      };
+
+      let hasMetaDescription = false;
+      let hasMetaKeywords = false;
+      let hasTitle = false;
+
+      head.querySelectorAll('meta').forEach ((meta) => {
+        if (meta.name === 'description') {
+          hasMetaDescription = true;
+        }
+      });
+
+      head.querySelectorAll('meta').forEach ((meta) => {
+        if (meta.name === 'keywords') {
+          hasMetaKeywords = true;
+        }
+      });
+
+      if (head.querySelector('title')) {
+        hasTitle = true;
+      }
+
+
       let metaViewport = document.createElement('meta')
       metaViewport.name = "viewport";
       metaViewport.setAttribute('content', 'width=device-width, initial-scale=1');
@@ -89,20 +116,20 @@ class Iris {
       head.appendChild(metaViewport);
       head.appendChild(metaHttp);
 
-      if (response.account_title) {
+      if (response.account_title && !hasTitle) {
         let accountTitle = document.createElement('title');
         accountTitle.innerHTML = `${response.account_title}`;
         head.appendChild(accountTitle);
       };
 
-      if (response.account_description) {
+      if (response.account_description && !hasMetaDescription) {
         let metaDescrition = document.createElement('meta');
         metaDescrition.name = "description";
         metaDescrition.setAttribute('content', `${response.account_description}`)
         head.appendChild(metaDescrition);
       };
 
-      if (response.account_keyword) {
+      if (response.account_keyword && !hasMetaKeywords) {
         let metaKeywords = document.createElement('meta');
         metaKeywords.name = "keywords";
         metaKeywords.setAttribute('content', `${response.account_keyword}`)
@@ -229,11 +256,8 @@ class Iris {
 
       if (!head) {
         head = document.createElement('head');
-        if (irisContainer.parentElement.parentElement.parentElement) {
-          irisContainer.parentElement.parentElement.parentElement.insertAdjacentHTML('afterbegin', head);
-        } else if (irisContainer.parentElement.parentElement) {
-          irisContainer.parentElement.parentElement.insertAdjacentHTML('afterbegin', head);
-        }
+        let html = document.querySelector('html')
+        html.insertAdjacentHTML('afterbegin', head);
       };
 
       let title = document.querySelector('title');
