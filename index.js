@@ -82,12 +82,32 @@ class Iris {
       metaViewport.name = "viewport";
       metaViewport.setAttribute('content', 'width=device-width, initial-scale=1');
 
-      let metaHttp = document.createElement('meta')
+      let metaHttp = document.createElement('meta');
       metaHttp.name = "http-equiv";
       metaHttp.setAttribute('content', "IE=edge,chrome=1")
 
       head.appendChild(metaViewport);
       head.appendChild(metaHttp);
+
+      if (response.account_title) {
+        let accountTitle = document.createElement('title');
+        accountTitle.innerHTML = `${response.account_title}`;
+        head.appendChild(accountTitle);
+      };
+
+      if (response.account_description) {
+        let metaDescrition = document.createElement('meta');
+        metaDescrition.name = "description";
+        metaDescrition.setAttribute('content', `${response.account_description}`)
+        head.appendChild(metaDescrition);
+      };
+
+      if (response.account_keyword) {
+        let metaKeywords = document.createElement('meta');
+        metaKeywords.name = "keywords";
+        metaKeywords.setAttribute('content', `${response.account_keyword}`)
+        head.appendChild(metaKeywords);
+      };
 
       let subTitleDiv = document.createElement('div');
       subTitleDiv.classList.add('sub-title-div');
