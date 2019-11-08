@@ -76,52 +76,60 @@ class Iris {
 
       // Set Meta tags
 
+      // Set head
       let head = document.querySelector('head');
-
       if (!head) {
         head = document.createElement('head');
         let html = document.querySelector('html');
         html.insertAdjacentHTML('afterbegin', head);
       };
 
-      let hasMetaDescription = false;
-      let hasMetaKeywords = false;
+      // Set viewport
+      let hasViewport = false;
+      if (head.querySelectorAll('meta').forEach ((meta) => {
+        if (meta.name === 'viewport') {
+          hasViewport = true;
+        }
+      }));
+      if (!hasViewport) {
+        let metaViewport = document.createElement('meta');
+        metaViewport.name = "viewport";
+        metaViewport.setAttribute('content', 'width=device-width, initial-scale=1');
+        head.appendChild(metaViewport);
+      };
+
+      // Has http equiv
+      let hasHttpequiv = false;
+      if (head.querySelectorAll('meta').forEach((meta) => {
+        if (meta.name === 'http-equiv') {
+          hasHttpequiv = true
+        }
+      }));
+      if (!hasHttpequiv) {
+        let metaHttp = document.createElement('meta');
+        metaHttp.name = "http-equiv";
+        metaHttp.setAttribute('content', "IE=edge,chrome=1");
+        head.appendChild(metaHttp);
+      }
+
+      // Set title
       let hasTitle = false;
-
-      head.querySelectorAll('meta').forEach ((meta) => {
-        if (meta.name === 'description') {
-          hasMetaDescription = true;
-        }
-      });
-
-      head.querySelectorAll('meta').forEach ((meta) => {
-        if (meta.name === 'keywords') {
-          hasMetaKeywords = true;
-        }
-      });
-
       if (head.querySelector('title')) {
         hasTitle = true;
       }
-
-
-      let metaViewport = document.createElement('meta');
-      metaViewport.name = "viewport";
-      metaViewport.setAttribute('content', 'width=device-width, initial-scale=1');
-
-      let metaHttp = document.createElement('meta');
-      metaHttp.name = "http-equiv";
-      metaHttp.setAttribute('content', "IE=edge,chrome=1");
-
-      head.appendChild(metaViewport);
-      head.appendChild(metaHttp);
-
       if (response.account_title && !hasTitle) {
         let accountTitle = document.createElement('title');
         accountTitle.innerHTML = `${response.account_title}`;
         head.appendChild(accountTitle);
       };
 
+      // Set meta description
+      let hasMetaDescription = false;
+      head.querySelectorAll('meta').forEach ((meta) => {
+        if (meta.name === 'description') {
+          hasMetaDescription = true;
+        }
+      });
       if (response.account_description && !hasMetaDescription) {
         let metaDescrition = document.createElement('meta');
         metaDescrition.name = "description";
@@ -129,6 +137,13 @@ class Iris {
         head.appendChild(metaDescrition);
       };
 
+      // Set meta keywords
+      let hasMetaKeywords = false;
+      head.querySelectorAll('meta').forEach ((meta) => {
+        if (meta.name === 'keywords') {
+          hasMetaKeywords = true;
+        }
+      });
       if (response.account_keyword && !hasMetaKeywords) {
         let metaKeywords = document.createElement('meta');
         metaKeywords.name = "keywords";
@@ -253,14 +268,13 @@ class Iris {
       // Set head
 
       let head = document.querySelector('head');
-
       if (!head) {
         head = document.createElement('head');
         let html = document.querySelector('html');
         html.insertAdjacentHTML('afterbegin', head);
       };
 
-      let title = document.querySelector('title');
+      let title = head.querySelector('title');
 
       let titleText = post.main_title
       if (post.seo_title) {
@@ -281,45 +295,126 @@ class Iris {
 
       // Set META tags
 
-      let metaDescription = document.createElement('meta');
-      metaDescription.name = "description";
-      metaDescription.setAttribute('content', post.meta_description);
+      // Set meta description
+      let hasMetaDescription = false;
+      head.querySelectorAll('meta').forEach((meta) =>{
+        if (meta.name === 'description') {
+          meta.content = post.meta_description;
+          hasMetaDescription = true;
+        }
+      });
+      if (!hasMetaDescription) {
+        let metaDescription = document.createElement('meta');
+        metaDescription.name = "description";
+        metaDescription.setAttribute('content', post.meta_description);
+        head.appendChild(metaDescription);
+      };
 
-      let metakKyphrase = document.createElement('meta');
-      metaDescription.name = "keywords";
-      metakKyphrase.setAttribute('content', post.keyphrase);
+      // Set meta keywords
+      let hasMetaKeywords = false;
+      head.querySelectorAll('meta').forEach((meta) =>{
+        if (meta.name === 'keywords') {
+          meta.content = post.keyphrase;
+          hasMetaKeywords = true;
+        }
+      });
+      if (!hasMetaKeywords) {
+        let metakeyphrase = document.createElement('meta');
+        metakeyphrase.name = "keywords";
+        metakeyphrase.setAttribute('content', post.keyphrase);
+        head.appendChild(metakeyphrase);
+      };
 
-      let ogTitle = document.createElement('meta');
-      ogTitle.setAttribute('property', 'og:title');
-      ogTitle.setAttribute('content', post.seo_title);
+      // Set og title
+      let hasMetaOgTitle = false;
+      head.querySelectorAll('meta').forEach((meta) =>{
+        if (meta.property === 'og:title') {
+          meta.content = post.seo_title;
+          hasMetaOgTitle = true;
+        }
+      });
+      if (!hasMetaOgTitle) {
+        let ogTitle = document.createElement('meta');
+        ogTitle.setAttribute('property', 'og:title');
+        ogTitle.setAttribute('content', post.seo_title);
+        head.appendChild(ogTitle);
+      };
 
-      let ogDescription = document.createElement('meta');
-      ogDescription.setAttribute('property', 'og:description');
-      ogDescription.setAttribute('content', post.meta_description);
+      // Set og description
+      let hasMetaOgDescription = false;
+      head.querySelectorAll('meta').forEach((meta) =>{
+        if (meta.property === 'og:description') {
+          meta.content = post.meta_description;
+          hasMetaOgDescription = true;
+        }
+      });
+      if (!hasMetaOgDescription) {
+        let ogDescription = document.createElement('meta');
+        ogDescription.setAttribute('property', 'og:description');
+        ogDescription.setAttribute('content', post.meta_description);
+        head.appendChild(ogDescription);
+      };
 
-      let ogType = document.createElement('meta');
-      ogType.setAttribute('property', 'og:type');
-      ogType.setAttribute('content', 'website');
+      // Set meta og type
+      let hasMetaOgType = false;
+      head.querySelectorAll('meta').forEach((meta) =>{
+        if (meta.property === 'og:type') {
+          meta.content = 'website';
+          hasMetaOgType = true;
+        }
+      });
+      if (!hasMetaOgType) {
+        let ogType = document.createElement('meta');
+        ogType.setAttribute('property', 'og:type');
+        ogType.setAttribute('content', 'website');
+        head.appendChild(ogType);
+      };
 
-      let ogImage = document.createElement('meta');
-      ogImage.setAttribute('property', 'og:image');
-      ogImage.setAttribute('content', post.banner_image.url);
+      // Set meta og image
+      let hasMetaOgImage = false;
+      head.querySelectorAll('meta').forEach((meta) =>{
+        if (meta.property === 'og:image') {
+          meta.content = post.banner_image.url;
+          hasMetaOgImage = true;
+        }
+      });
+      if (!hasMetaOgImage) {
+        let ogImage = document.createElement('meta');
+        ogImage.setAttribute('property', 'og:image');
+        ogImage.setAttribute('content', post.banner_image.url);
+        head.appendChild(ogImage);
+      };
 
-      let metaViewport = document.createElement('meta');
-      metaViewport.name = "viewport";
-      metaViewport.setAttribute('content', 'width=device-width, initial-scale=1');
+      // Set meta viewport
+      let hasMetaViewport = false;
+      head.querySelectorAll('meta').forEach((meta) =>{
+        if (meta.name === 'viewport') {
+          meta.content = 'width=device-width, initial-scale=1';
+          hasMetaViewport = true;
+        }
+      });
+      if (!hasMetaViewport) {
+        let metaViewport = document.createElement('meta');
+        metaViewport.name = "viewport";
+        metaViewport.setAttribute('content', 'width=device-width, initial-scale=1');
+        head.appendChild(metaViewport);
+      };
 
-      let metaHttp = document.createElement('meta')
-      metaHttp.name = "http-equiv";
-      metaHttp.setAttribute('content', "IE=edge,chrome=1")
+      // Set meta http equiv
+      let hasMetaHttp = false;
+      head.querySelectorAll('meta').forEach((meta) =>{
+        if (meta.name === 'http-equiv') {
+          meta.content =  "IE=edge,chrome=1";
+          hasMetaHttp = true;
+        }
+      });
+      if (!hasMetaHttp) {
+        let metaHttp = document.createElement('meta')
+        metaHttp.name = "http-equiv";
+        metaHttp.setAttribute('content', "IE=edge,chrome=1")
+        head.appendChild(metaHttp);
+      }
 
-      head.appendChild(metaDescription);
-      head.appendChild(ogTitle);
-      head.appendChild(ogDescription);
-      head.appendChild(ogType);
-      head.appendChild(ogImage);
-      head.appendChild(metaViewport);
-      head.appendChild(metaHttp);
 
       // Build Home Button
 
