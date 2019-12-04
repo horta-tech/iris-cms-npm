@@ -4,7 +4,7 @@ class Iris {
     if (options.testUrl) {
       this.apiUrl = `${options.testUrl}/api/v1/`
     } else {
-      this.apiUrl = 'https://iris.horta.dev/api/v1/'
+      this.apiUrl = 'https://iriscms.herokuapp.com/api/v1/'
     }
     this.developmentMode = options.developmentMode
     let irisContainer = document.getElementById(options.elementId);
@@ -64,7 +64,7 @@ class Iris {
     if (this.developmentMode) {
       style.href = `./templates/${styleName}.css`;
     } else {
-      style.href = 'https://iris.horta.dev/styles/' + styleName + '.css';
+      style.href = 'https://iriscms.herokuapp.com/styles/' + styleName + '.css';
     };
     head.appendChild(style);
   };
