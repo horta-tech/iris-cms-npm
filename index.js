@@ -527,7 +527,13 @@ class Iris {
         if (topic.image.url != null) {
           let topicImage = document.createElement('img');
           topicImage.classList.add('topic_image');
-          topicImage.src = topic.image.url;
+          formatedUrl = topic.image.url;
+          let a = 0
+          while (a != -1) {
+            a = formatedUrl.indexOf('%C');
+            formatedUrl.replace(formatedUrl.substring(a, a + 6),decodeURIComponent(formatedUrl.substring(a, a + 6)))
+          }
+          topicImage.src = formatedUrl;
           topicImage.alt = topic.label;
           let topicImagePath = topic.image.url.split(/\/|\./);
           topicImage.title = topicImagePath[topicImagePath.length - 2];
