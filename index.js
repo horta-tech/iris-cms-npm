@@ -23,6 +23,15 @@ class Iris {
     return this.apiUrl + 'account-info?api_key=' + this.apiKey;
   }
 
+  formatString(word) {
+    let a = 0
+    while (a != -1) {
+      a = word.indexOf('%C');
+      word = word.replace(word.substring(a, a + 6),decodeURIComponent(word.substring(a, a + 6)));
+    }
+    return word.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
+
   async getPosts(limit) {
     let headers = {
       method: 'GET',
@@ -371,17 +380,18 @@ class Iris {
       };
 
       // Set meta og image
+      var formatedString = this.formatString(post.banner_image.url);
       let hasMetaOgImage = false;
       head.querySelectorAll('meta').forEach((meta) =>{
         if (meta.property === 'og:image') {
-          meta.content = post.banner_image.url;
+          meta.content = formatedString;
           hasMetaOgImage = true;
         }
       });
       if (!hasMetaOgImage) {
         let ogImage = document.createElement('meta');
         ogImage.setAttribute('property', 'og:image');
-        ogImage.setAttribute('content', post.banner_image.url);
+        ogImage.setAttribute('content', formatedString);
         head.appendChild(ogImage);
       };
 
@@ -527,13 +537,7 @@ class Iris {
         if (topic.image.url != null) {
           let topicImage = document.createElement('img');
           topicImage.classList.add('topic_image');
-          formatedUrl = topic.image.url;
-          let a = 0
-          while (a != -1) {
-            a = formatedUrl.indexOf('%C');
-            formatedUrl.replace(formatedUrl.substring(a, a + 6),decodeURIComponent(formatedUrl.substring(a, a + 6)))
-          }
-          topicImage.src = formatedUrl.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+          topicImage.src = formatString(topic.image.url);
           topicImage.alt = topic.label;
           let topicImagePath = topic.image.url.split(/\/|\./);
           topicImage.title = topicImagePath[topicImagePath.length - 2];
