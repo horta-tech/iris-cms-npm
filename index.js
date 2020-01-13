@@ -533,7 +533,7 @@ class Iris {
             a = formatedUrl.indexOf('%C');
             formatedUrl.replace(formatedUrl.substring(a, a + 6),decodeURIComponent(formatedUrl.substring(a, a + 6)))
           }
-          topicImage.src = formatedUrl;
+          topicImage.src = formatedUrl.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
           topicImage.alt = topic.label;
           let topicImagePath = topic.image.url.split(/\/|\./);
           topicImage.title = topicImagePath[topicImagePath.length - 2];
