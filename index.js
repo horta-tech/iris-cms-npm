@@ -23,6 +23,15 @@ class Iris {
     return this.apiUrl + 'account-info?api_key=' + this.apiKey;
   }
 
+  formatString(word) {
+    let a = 0
+    while (a != -1) {
+      a = word.indexOf('%C');
+      word = word.replace(word.substring(a, a + 6),decodeURIComponent(word.substring(a, a + 6)));
+    }
+    return word.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
+
   async getPosts(limit) {
     let headers = {
       method: 'GET',
@@ -371,17 +380,18 @@ class Iris {
       };
 
       // Set meta og image
+      var formatedUrl = this.formatString(post.banner_image.url);
       let hasMetaOgImage = false;
       head.querySelectorAll('meta').forEach((meta) =>{
         if (meta.property === 'og:image') {
-          meta.content = post.banner_image.url;
+          meta.content = formatedUrl;
           hasMetaOgImage = true;
         }
       });
       if (!hasMetaOgImage) {
         let ogImage = document.createElement('meta');
         ogImage.setAttribute('property', 'og:image');
-        ogImage.setAttribute('content', post.banner_image.url);
+        ogImage.setAttribute('content', formatedUrl);
         head.appendChild(ogImage);
       };
 
