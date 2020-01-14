@@ -380,18 +380,18 @@ class Iris {
       };
 
       // Set meta og image
-      var formatedString = this.formatString(post.banner_image.url);
+      var formatedUrl = this.formatString(post.banner_image.url);
       let hasMetaOgImage = false;
       head.querySelectorAll('meta').forEach((meta) =>{
         if (meta.property === 'og:image') {
-          meta.content = formatedString;
+          meta.content = formatedUrl;
           hasMetaOgImage = true;
         }
       });
       if (!hasMetaOgImage) {
         let ogImage = document.createElement('meta');
         ogImage.setAttribute('property', 'og:image');
-        ogImage.setAttribute('content', formatedString);
+        ogImage.setAttribute('content', formatedUrl);
         head.appendChild(ogImage);
       };
 
