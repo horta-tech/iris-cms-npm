@@ -1,9 +1,10 @@
 options = {
-  apiKey: 'Rcdu7b6rZJQWRE5S1rdP8dya',
+  apiKey: 'Y9avyDWJ9MPpbn5j4NeQnKHj',
   developmentMode: true,
-  testUrl: 'http://localhost:3000',
+  testUrl: 'http://iris.horta.dev',
   elementId: 'blog'
 }
 
 //  production: AchBRWDwc38ku24GkMfBNHW7
 let iris = new Iris(options);
+
