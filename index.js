@@ -244,7 +244,11 @@ class Iris {
     postUpdateInfo.classList.add('updatedinfo');
     postUpdateInfo.innerText = "Atualizado em " + postDate;
 
-    postLink.href = window.location.href + '?post=' + post.slug;
+    if (window.location.href.includes('?')) {
+      postLink.href = window.location.href + '&post=' + post.slug
+    } else {
+      postLink.href = window.location.href + '?post=' + post.slug
+    }
 
     let bannerInfo = document.createElement('div');
     bannerInfo.classList.add('banner-info');
@@ -621,39 +625,37 @@ class Iris {
       let posts = response.related_posts;
       let blogGrid = document.createElement('div');
       blogGrid.classList.add('last_posts');
+      posts.forEach((post) => {
+        let postDiv = document.createElement('div');
+        let postLink = document.createElement('a');
+        let postImage = document.createElement('img');
+        let postSmallDiv = document.createElement('div');
+        let postText = document.createElement('h3');
+        let postPublished = document.createElement('p');
+        let postDate = new Date(post.updated_at).toLocaleDateString();
 
-        posts.forEach((post) => {
-          let postDiv = document.createElement('div');
-          let postLink = document.createElement('a');
-          let postImage = document.createElement('img');
-          let postSmallDiv = document.createElement('div');
-          let postText = document.createElement('h3');
-          let postPublished = document.createElement('p');
-          let postDate = new Date(post.updated_at).toLocaleDateString();
+        postPublished.innerText =  "Atualizado em " + postDate;
+        postPublished.classList.add("published");
 
-          postPublished.innerText =  "Atualizado em " + postDate;
-          postPublished.classList.add("published");
+        postText.innerHTML = post.main_title;
 
-          postText.innerHTML = post.main_title;
+        postImage.src = post.banner_image;
+        postImage.alt = response.account_name + ' | ' + post.main_title;
+        postLink.href = window.location.pathname + '?post=' + post.slug;
 
-          postImage.src = post.banner_image;
-          postImage.alt = response.account_name + ' | ' + post.main_title;
-          postLink.href = window.location.pathname + '?post=' + post.slug;
+        postLink.href = window.location.pathname + '?post=' + post.slug;
 
-          postLink.href = window.location.pathname + '?post=' + post.slug;
+        postDiv.classList.add('small_post_banner');
+        postLink.appendChild(postImage);
+        postLink.appendChild(postPublished);
+        postSmallDiv.appendChild(postText);
+        postSmallDiv.classList.add('small_post_content');
+        postLink.appendChild(postSmallDiv);
+        postDiv.appendChild(postLink);
+        blogGrid.appendChild(postDiv);
 
-          postDiv.classList.add('small_post_banner');
-          postLink.appendChild(postImage);
-          postLink.appendChild(postPublished);
-          postSmallDiv.appendChild(postText);
-          postSmallDiv.classList.add('small_post_content');
-          postLink.appendChild(postSmallDiv);
-          postDiv.appendChild(postLink);
-          blogGrid.appendChild(postDiv);
-
-        });
-        postGrid.appendChild(blogGrid);
-
+      });
+      postGrid.appendChild(blogGrid);
     });
   }
 
@@ -746,8 +748,6 @@ class Iris {
         nextImage.src = bgImage;
       }
     }, 100);
-
-
   };
 
   async addLoadScreen(){

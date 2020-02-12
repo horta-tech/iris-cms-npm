@@ -1,7 +1,7 @@
 options = {
-  apiKey: 'Y9avyDWJ9MPpbn5j4NeQnKHj',
+  apiKey: 'Rcdu7b6rZJQWRE5S1rdP8dya',
   developmentMode: true,
-  testUrl: 'http://iris.horta.dev',
+  testUrl: 'http://localhost:3000',
   elementId: 'blog'
 }
 
