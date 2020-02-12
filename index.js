@@ -641,9 +641,12 @@ class Iris {
 
         postImage.src = post.banner_image;
         postImage.alt = response.account_name + ' | ' + post.main_title;
-        postLink.href = window.location.pathname + '?post=' + post.slug;
 
-        postLink.href = window.location.pathname + '?post=' + post.slug;
+        if (window.location.pathname.includes('?')) {
+          postLink.href = window.location.pathname + '&post=' + post.slug;
+        } else {
+          postLink.href = window.location.pathname + '?post=' + post.slug;
+        }
 
         postDiv.classList.add('small_post_banner');
         postLink.appendChild(postImage);
@@ -794,4 +797,4 @@ class Iris {
 
 }
 
-export default Iris;
+// export default Iris;
