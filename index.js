@@ -477,9 +477,16 @@ class Iris {
       let postDate = new Date(post.updated_at).toLocaleDateString();
       let postTime = new Date(post.updated_at).toLocaleTimeString();
 
-      if (post.author){
+      if (post.author) {
         postDescription.innerText = "Atualizado em " + postDate + " " + postTime;
-        postAuthor.innerText = "Publicado por " + post.author.email;
+        if (post.author.first_name) {
+          postAuthor.innerText = "Publicado por " + post.author.first_name;
+          if (post.author.last_name) {
+            postAuthor.innerText += post.author.last_name;
+          }
+        } else {
+          postAuthor.innerText = "Publicado por " + post.author.email;
+        }
       }
 
       authorAndDescription.appendChild(postAuthor);
@@ -796,7 +803,14 @@ class Iris {
       }
     }, 1000);
   }
-
 }
 
+
+// export default Iris;
 export default Iris;
+
+
+
+
+
+
