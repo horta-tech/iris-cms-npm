@@ -8,7 +8,11 @@ class Iris {
     }
     this.developmentMode = options.developmentMode
     let irisContainer = document.getElementById(options.elementId);
+
     this.buildContent(irisContainer);
+
+    // Blog animation
+    this.fadeIn(irisContainer);
   }
 
   indexUrl() {
@@ -87,6 +91,11 @@ class Iris {
 
       // Set head
       let head = document.querySelector('head');
+
+      if(response.template){
+       this.style(response.template);
+      }
+
       if (!head) {
         head = document.createElement('head');
         let html = document.querySelector('html');
@@ -170,10 +179,7 @@ class Iris {
       irisContainer.appendChild(subTitleDiv);
 
       let posts = response.data;
-      posts.slice(0, 3).forEach((post) => {
-        let postCard = this.postCard(post);
-        blogGrid.appendChild(postCard);
-      });
+      this.progressiveRender(posts.slice(0, 3), blogGrid);
 
       irisContainer.appendChild(blogGrid);
 
@@ -183,10 +189,7 @@ class Iris {
       let highlightedPosts = document.createElement('div');
       highlightedPosts.classList.add('highlighted-posts');
 
-      posts.slice(3, 6).forEach((post) => {
-        let postCard = this.postCard(post);
-        highlightedPosts.appendChild(postCard);
-      });
+      this.progressiveRender(posts.slice(3, 6), highlightedPosts)
 
       irisContainer.appendChild(highlightedPosts);
 
@@ -201,25 +204,25 @@ class Iris {
       let lastThreePosts = document.createElement('div');
       lastThreePosts.classList.add('last-three-posts');
 
-      if (lastPosts.length % 2) {
-          lastPosts.slice(0,-3).forEach((post) => {
-            let postCard = this.postCard(post);
-            morePosts.appendChild(postCard);
-          })
-        lastPosts.slice(-3).forEach((post) => {
-          let postCard = this.postCard(post);
-          lastThreePosts.appendChild(postCard);
-        })
+      if (lastPosts.length % 2 == 1) {
+        this.progressiveRender(lastPosts.slice(0, -3), morePosts);
+        this.progressiveRender(lastPosts.slice(-3), lastThreePosts);
       } else {
-        lastPosts.forEach((post) => {
-          let postCard = this.postCard(post);
-          morePosts.appendChild(postCard);
-        })
+        this.progressiveRender(lastPosts, morePosts)
       };
+
+      this.animateOnScreen(morePosts);
+      this.animateOnScreen(lastThreePosts);
+
+      const htmlPosts = document.querySelectorAll('.post-div');
+
       irisContainer.appendChild(morePosts);
       irisContainer.appendChild(lastThreePosts);
+
     });
   };
+
+
 
   postCard(post) {
     let postDiv = document.createElement('div');
@@ -241,7 +244,11 @@ class Iris {
     postUpdateInfo.classList.add('updatedinfo');
     postUpdateInfo.innerText = "Atualizado em " + postDate;
 
-    postLink.href = window.location.href + '?post=' + post.slug;
+    if (window.location.href.includes('?')) {
+      postLink.href = window.location.href + '&post=' + post.slug
+    } else {
+      postLink.href = window.location.href + '?post=' + post.slug
+    }
 
     let bannerInfo = document.createElement('div');
     bannerInfo.classList.add('banner-info');
@@ -275,6 +282,9 @@ class Iris {
       let post = response.data
 
       // Set head
+      if(response.template){
+       this.style(response.template);
+      }
 
       let head = document.querySelector('head');
       if (!head) {
@@ -615,39 +625,37 @@ class Iris {
       let posts = response.related_posts;
       let blogGrid = document.createElement('div');
       blogGrid.classList.add('last_posts');
+      posts.forEach((post) => {
+        let postDiv = document.createElement('div');
+        let postLink = document.createElement('a');
+        let postImage = document.createElement('img');
+        let postSmallDiv = document.createElement('div');
+        let postText = document.createElement('h3');
+        let postPublished = document.createElement('p');
+        let postDate = new Date(post.updated_at).toLocaleDateString();
 
-        posts.forEach((post) => {
-          let postDiv = document.createElement('div');
-          let postLink = document.createElement('a');
-          let postImage = document.createElement('img');
-          let postSmallDiv = document.createElement('div');
-          let postText = document.createElement('h3');
-          let postPublished = document.createElement('p');
-          let postDate = new Date(post.updated_at).toLocaleDateString();
+        postPublished.innerText =  "Atualizado em " + postDate;
+        postPublished.classList.add("published");
 
-          postPublished.innerText =  "Atualizado em " + postDate;
-          postPublished.classList.add("published");
+        postText.innerHTML = post.main_title;
 
-          postText.innerHTML = post.main_title;
+        postImage.src = post.banner_image;
+        postImage.alt = response.account_name + ' | ' + post.main_title;
+        postLink.href = window.location.pathname + '?post=' + post.slug;
 
-          postImage.src = post.banner_image;
-          postImage.alt = response.account_name + ' | ' + post.main_title;
-          postLink.href = window.location.pathname + '?post=' + post.slug;
+        postLink.href = window.location.pathname + '?post=' + post.slug;
 
-          postLink.href = window.location.pathname + '?post=' + post.slug;
+        postDiv.classList.add('small_post_banner');
+        postLink.appendChild(postImage);
+        postLink.appendChild(postPublished);
+        postSmallDiv.appendChild(postText);
+        postSmallDiv.classList.add('small_post_content');
+        postLink.appendChild(postSmallDiv);
+        postDiv.appendChild(postLink);
+        blogGrid.appendChild(postDiv);
 
-          postDiv.classList.add('small_post_banner');
-          postLink.appendChild(postImage);
-          postLink.appendChild(postPublished);
-          postSmallDiv.appendChild(postText);
-          postSmallDiv.classList.add('small_post_content');
-          postLink.appendChild(postSmallDiv);
-          postDiv.appendChild(postLink);
-          blogGrid.appendChild(postDiv);
-
-        });
-        postGrid.appendChild(blogGrid);
-
+      });
+      postGrid.appendChild(blogGrid);
     });
   }
 
@@ -661,36 +669,86 @@ class Iris {
         }
       };
 
-      this.addLoadScreen();
-      setTimeout(this.removeLoadScreen, 4000);
+      let query = new URLSearchParams(window.location.search);
+      let slug = query.get('post')
 
-      fetch(this.infoUrl(), headers)
-      .then(response => response.json())
-      .then((data) => {
-        this.accountInfo = data;
+      irisContainer.innerHTML = '';
+      let mainContainer = document.createElement('div');
+      mainContainer.setAttribute("id", "iris-main-container");
 
-        // Set Style according to template
+      irisContainer.appendChild(mainContainer);
 
-        if (this.accountInfo.template && this.accountInfo.template != '') {
-          this.style(this.accountInfo.template);
-        };
-        let query = new URLSearchParams(window.location.search);
-        let slug = query.get('post')
+      if (slug) {
+        this.buildPost(mainContainer, slug);
+      } else {
+        this.buildBlog(mainContainer);
+      }
 
-        irisContainer.innerHTML = '';
-        let mainContainer = document.createElement('div');
-        mainContainer.setAttribute("id", "iris-main-container");
+      // fetch(this.infoUrl(), headers)
+      // .then(response => response.json())
+      // .then((data) => {
+      //   this.accountInfo = data;
 
-        irisContainer.appendChild(mainContainer);
+      //   Set Style according to template
 
-        if (slug) {
-          this.buildPost(mainContainer, slug);
-        } else {
-          this.buildBlog(mainContainer);
-        }
-      })
+      //   if (this.accountInfo.template && this.accountInfo.template != '') {
+      //     this.style(this.accountInfo.template);
+      //   };
+      //   let query = new URLSearchParams(window.location.search);
+      //   let slug = query.get('post')
+
+      //   irisContainer.innerHTML = '';
+      //   let mainContainer = document.createElement('div');
+      //   mainContainer.setAttribute("id", "iris-main-container");
+
+      //   irisContainer.appendChild(mainContainer);
+
+      //   if (slug) {
+      //     this.buildPost(mainContainer, slug);
+      //   } else {
+      //     this.buildBlog(mainContainer);
+      //   }
+      // })
     }
   }
+
+  progressiveRender(postList, postContainer){
+    var currentPost = this.postCard(postList[0]);
+    postContainer.appendChild(currentPost);
+    var nextPost = this.postCard(postList[1]);
+    var postCounter = 1;
+
+    var bgImage = nextPost.firstChild.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/i, "$1");
+
+    var nextImage = document.createElement('img');
+    nextImage.src = bgImage;
+
+    // nextImage.addEventListener('load', () => {
+    //   postCounter += 1;
+    //   postContainer.appendChild(nextPost);
+    //   nextPost = this.postCard(postList[postCounter]);
+    //   bgImage = nextPost.firstChild.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/i, "$1");
+    //   nextImage.src = bgImage;
+    // });
+
+    // nextImage.addEventListener('error', () => {
+    //   postCounter += 1;
+    //   postContainer.appendChild(nextPost);
+    //   nextPost = this.postCard(postList[postCounter]);
+    //   bgImage = nextPost.firstChild.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/i, "$1");
+    //   nextImage.src = bgImage;
+    // });
+
+    setInterval(() => {
+      if(postContainer.lastChild.getBoundingClientRect().y < window.pageYOffset + window.innerHeight && postList[postCounter]){
+        postCounter += 1;
+        postContainer.appendChild(nextPost);
+        nextPost = this.postCard(postList[postCounter]);
+        bgImage = nextPost.firstChild.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/i, "$1");
+        nextImage.src = bgImage;
+      }
+    }, 100);
+  };
 
   async addLoadScreen(){
     let loadScreen = document.createElement('div');
@@ -710,6 +768,30 @@ class Iris {
       loadScreen.remove();
     }
   }
+
+  animateOnScreen(postContainer){
+    setInterval(() => {
+      Array.from(postContainer.children).forEach((post) => {
+        if(post.getBoundingClientRect().y < window.pageYOffset + window.innerHeight){
+          post.style.opacity = 1;
+        }else{
+          post.style.opacity = 0;
+        }
+      });
+    }, 100);
+  }
+
+  fadeIn(object){
+    object.style.opacity = 0;
+    object.style.transition = '1s';
+    setTimeout(() => {
+      var opacity;
+      for(opacity = 0; opacity < 101; opacity++){
+        object.style.opacity = opacity/100;
+      }
+    }, 1000);
+  }
+
 }
 
 export default Iris;
