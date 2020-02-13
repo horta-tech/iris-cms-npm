@@ -219,6 +219,8 @@ class Iris {
       irisContainer.appendChild(morePosts);
       irisContainer.appendChild(lastThreePosts);
 
+
+
     });
   };
 
@@ -723,42 +725,46 @@ class Iris {
   }
 
   progressiveRender(postList, postContainer){
-    var currentPost = this.postCard(postList[0]);
-    postContainer.appendChild(currentPost);
-    if (postList[1]) {
-      var nextPost = this.postCard(postList[1]);
-      var postCounter = 1;
+    if (postList[0]) {
+      var currentPost = this.postCard(postList[0]);
+      postContainer.appendChild(currentPost);
+      if (postList[1]) {
+        var nextPost = this.postCard(postList[1]);
+        var postCounter = 1;
 
-      var bgImage = nextPost.firstChild.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/i, "$1");
+        var bgImage = nextPost.firstChild.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/i, "$1");
 
-      var nextImage = document.createElement('img');
-      nextImage.src = bgImage;
+        var nextImage = document.createElement('img');
+        nextImage.src = bgImage;
 
-      // nextImage.addEventListener('load', () => {
-      //   postCounter += 1;
-      //   postContainer.appendChild(nextPost);
-      //   nextPost = this.postCard(postList[postCounter]);
-      //   bgImage = nextPost.firstChild.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/i, "$1");
-      //   nextImage.src = bgImage;
-      // });
+        // nextImage.addEventListener('load', () => {
+        //   postCounter += 1;
+        //   postContainer.appendChild(nextPost);
+        //   nextPost = this.postCard(postList[postCounter]);
+        //   bgImage = nextPost.firstChild.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/i, "$1");
+        //   nextImage.src = bgImage;
+        // });
 
-      // nextImage.addEventListener('error', () => {
-      //   postCounter += 1;
-      //   postContainer.appendChild(nextPost);
-      //   nextPost = this.postCard(postList[postCounter]);
-      //   bgImage = nextPost.firstChild.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/i, "$1");
-      //   nextImage.src = bgImage;
-      // });
+        // nextImage.addEventListener('error', () => {
+        //   postCounter += 1;
+        //   postContainer.appendChild(nextPost);
+        //   nextPost = this.postCard(postList[postCounter]);
+        //   bgImage = nextPost.firstChild.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/i, "$1");
+        //   nextImage.src = bgImage;
+        // });
 
-      setInterval(() => {
-        if(postContainer.lastChild.getBoundingClientRect().y < window.pageYOffset + window.innerHeight && postList[postCounter]){
-          postCounter += 1;
-          postContainer.appendChild(nextPost);
-          nextPost = this.postCard(postList[postCounter]);
-          bgImage = nextPost.firstChild.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/i, "$1");
-          nextImage.src = bgImage;
-        }
-      }, 100);
+        setInterval(() => {
+          if(postContainer.lastChild.getBoundingClientRect().y < window.pageYOffset + window.innerHeight && postList[postCounter]){
+            postCounter += 1;
+            postContainer.appendChild(nextPost);
+            if (postList[postCounter]) {
+              nextPost = this.postCard(postList[postCounter]);
+              bgImage = nextPost.firstChild.style.backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/i, "$1");
+              nextImage.src = bgImage;
+            }
+          }
+        }, 100);
+      }
     }
   };
 
@@ -808,9 +814,3 @@ class Iris {
 
 // export default Iris;
 export default Iris;
-
-
-
-
-
-
