@@ -3,13 +3,13 @@
 #iris-main-container {
   /*BLOG SECTION*/
   /*POST SECTION*/
-  background-color: #f9f9f9;
+  background-color: #fff;
   font-family: Roboto, Times, serif;
 
   /*  padding: 5px;*/
 
   a:-webkit-any-link {
-    color: #ed1b24;
+    color: #009235;
     font-family: Roboto, Times, serif;
     text-decoration: none;
   }
@@ -216,8 +216,8 @@
     margin: 24px 40px;
 
     .secondary_title {
-      font-size: 24px;
       font-weight: bold;
+      font-size: 24px;
     }
 
     .first_introduction, .second_introduction {
@@ -225,8 +225,9 @@
     }
 
     .internal_links_list {
-      margin: 8px 16px;
-      list-style-type: circle;
+      list-style: inside;
+      list-style-type: disc;
+      padding-left: 0;
     }
 
     .internal_link {
@@ -241,6 +242,16 @@
 
   .topic {
     margin-top: 24px;
+
+    h1 {
+      font-size: 25px;
+    }
+
+    ul {
+      list-style-type: disc;
+      list-style: inside;
+      padding: 0 15px;
+    }
   }
 
   .topics {
@@ -260,12 +271,17 @@
       font-size: 24px;
       margin-top: 22px;
       margin-bottom: 9px;
+      font-family: "Gotham", sans-serif;
     }
 
     .topic_content {
       font-size: 17px;
       margin: 0px;
       padding-bottom: 16px;
+      ul {
+        list-style-type: disc;
+        list-style: inside;
+      }
     }
   }
 
@@ -282,6 +298,7 @@
       text-decoration: none;
 
       .cta-button {
+        font-family: "Gotham", sans-serif;
         color: white;
         background-color: #3B9C00;
         padding: 10px 15px;
@@ -426,18 +443,21 @@
       position: absolute;
       content: '';
       top: 50%;
+      width: 100%;
       right: 30px;
       height: 0;
       left: 0;
-      border-bottom: 1px solid #009688;
+      border-bottom: 1px solid #009235;
     }
 
     h2, h1 {
+      font-family: 'GOTHAM', sans-serif;
       overflow: hidden;
-      background-color: #f9f9f9;
+      background-color: #fff;
       display: inline-block;
       position: relative;
       padding-right: 15px;
+      margin: 20px 0;
     }
 
     h2::before, h1::before {
@@ -445,7 +465,7 @@
       height: 15px;
       content: '';
       display: inline-block;
-      background: #547AB5;
+      background: #009235;
       border-radius: 20px;
       vertical-align: middle;
       margin: -4px 20px 0 15px;
@@ -566,6 +586,15 @@
 
     .post-wrapper {
       padding: 4px;
+
+      blockquote, ul {
+        font-size: 15px;
+        padding: 0 15px;
+      }
+
+      span, li {
+        font-size: 15px;
+      }
     }
 
     .post_banner {
@@ -613,6 +642,7 @@
       }
     }
 
+
     .post-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -630,7 +660,7 @@
       }
 
       .topic_content {
-        font-size: 20px;
+        font-size: 17px;
       }
     }
 
@@ -699,7 +729,7 @@
   }
 }
 
-@media (max-width: 425px) {
+@media (max-width: 480px) {
   #iris-main-container {
     .highlighted-posts, .more-posts {
       grid-template-columns: 1fr;
@@ -718,26 +748,74 @@
       }
     }
 
+    .sub-title-div {
+
+      h1 {
+        font-size: 25px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+       h2::before, h1::before {
+        margin: -4px 10px 0 10px;
+      }
+    }
+
     .call-to-action {
-      font-size: 20px;
-      text-align: center;
-      background-color: white;
       margin: 10px 20px;
-      box-shadow: 0px 0px 13px 2px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
       max-width: 400px;
+      .cta-wrapper {
+        font-size: 17px;
+      }
+      .cta-link .cta-button {
+        font-size: 15px;
+      }
     }
 
     .post_banner {
-      height: 65vh;
-
-      .banner_content {
-        height: 100%;
-        justify-content: flex-end;
+      height: 100%;
+      img {
+        display: none;
       }
 
       .main_title {
-        text-align: center;
+        text-shadow: none;
+        font-size: 30px;
+      }
+
+      .banner_content {
+        height: 100%;
+        justify-content: center;
+        padding: 20px 25px;
+        background: none;
+        background-color: white;
+        color: black;
+        position: inherit;
+        hr {
+          margin: 5px 0 0;
+          border-bottom: 1px solid #009235;
+        }
+      }
+
+      .banner_text {
+        margin: 15px 0 0;
+        text-align: left;
+        text-align-last: left;
+      }
+
+
+    }
+
+    .introduction {
+
+      .secondary_title {
+        font-size: 24px;
+      }
+
+      .internal_link {
+        font-size: 15px;
       }
     }
 
@@ -752,16 +830,16 @@
       width: 100%;
       display: grid;
       grid-template-columns: 1fr;
+      margin-bottom: 5px;
     }
 
     .post-wrapper {
       grid-column: 1;
       grid-row: 1;
-      padding: 0;
+      padding: 0 25px;
+      width: 100vw;
+      margin-top: 0;
 
-      * {
-        padding: 0 8px;
-      }
 
       img {
         padding: 0;
@@ -774,17 +852,6 @@
 
     .topics {
       padding: 24px 0;
-    }
-
-    .call-to-action .cta-link .cta-button {
-      color: white;
-      background-color: #3B9C00;
-      padding: 10px 20px;
-      margin-bottom: 25px;
-      border: white;
-      border-radius: 6px;
-      font-size: 20px;
-      margin-top: 8px;
     }
 
     .last_posts {
@@ -801,6 +868,7 @@
       margin-bottom: 1px;
 
       p {
+        font-size: 15px;
         margin: 0 auto;
         margin-bottom: 5px;
       }
@@ -834,11 +902,5 @@
     .last-three-posts {
       grid-template-columns: 1fr;
     }
-  }
-}
-
-@media (max-width: 320px) {
-  #iris-main-container .post_banner {
-    height: 70vh;
   }
 }
